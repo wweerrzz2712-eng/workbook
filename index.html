@@ -1,0 +1,2040 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<title>Воркбук · Собери свой угол</title>
+<meta name="theme-color" content="#0b1310">
+<meta name="description" content="Воркбук Вероники Филатовой: собери свой угол и сними первый ролик на нём.">
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&family=Unbounded:wght@500;600&display=swap" rel="stylesheet">
+<style>
+/* ==========================================================================
+   ВОРКБУК «СОБЕРИ СВОЙ УГОЛ»
+   Палитра: тёмная хвоя + лайм (состояние и прогресс) + кремовый (финальный блок)
+   ========================================================================== */
+:root{
+  --bg:#0b1310; --bg2:#0e1a15;
+  --card:#111e18; --card2:#152720;
+  --line:#1c3227; --line2:#274534;
+  --txt:#e8f1e9; --t2:#8ba497; --t3:#7a9488;
+  --lime:#c8f24d; --lime2:#9ed12c; --lime-dim:rgba(200,242,77,.14);
+  --cream:#f3ece0; --ink:#0c1710;
+  --amber:#ffc078;
+  --rad:16px; --rad-lg:22px;
+  --ff:'Onest',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;
+  --fd:'Unbounded',var(--ff);
+  --pad:16px;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0; background:var(--bg); color:var(--txt);
+  font:400 16px/1.55 var(--ff);
+  -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+  overscroll-behavior-y:none;
+  display:flex; flex-direction:column; min-height:100vh; min-height:100dvh;
+}
+body::before{
+  content:''; position:fixed; inset:0 0 auto; height:320px; pointer-events:none; z-index:0;
+  background:radial-gradient(120% 80% at 12% 0%, rgba(200,242,77,.07), transparent 60%);
+}
+.wrap{position:relative; z-index:1; flex:1 0 auto; width:100%; max-width:640px; margin:0 auto; padding:0 var(--pad)}
+a{color:inherit}
+button{font:inherit; color:inherit; -webkit-tap-highlight-color:transparent}
+:focus-visible{outline:2px solid var(--lime); outline-offset:2px; border-radius:6px}
+b,strong{font-weight:600; color:var(--txt)}
+.lime{color:var(--lime)}
+
+/* ---------- шапка ---------- */
+.top{display:flex; align-items:center; gap:12px; padding:18px 0 14px}
+.mark{
+  width:42px; height:42px; border-radius:50%; flex:none; overflow:hidden;
+  border:1.5px solid rgba(200,242,77,.5); box-shadow:0 0 0 3px rgba(200,242,77,.08);
+}
+.mark img{width:100%; height:100%; object-fit:cover; display:block}
+.who{display:flex; flex-direction:column; line-height:1.2; min-width:0}
+.who b{font-weight:600; font-size:15px; letter-spacing:-.01em}
+.who span{font-size:11px; color:var(--t3); text-transform:uppercase; letter-spacing:.14em; margin-top:3px}
+.ring{
+  margin-left:auto; flex:none; width:44px; height:44px; border-radius:50%;
+  background:conic-gradient(var(--lime) calc(var(--p,0) * 1%), rgba(255,255,255,.07) 0);
+  display:grid; place-items:center;
+}
+.ring i{
+  width:36px; height:36px; border-radius:50%; background:var(--bg); display:grid; place-items:center;
+  font:500 11px/1 var(--fd); font-style:normal; color:var(--t2); letter-spacing:-.02em;
+}
+.ring.full i{color:var(--lime)}
+
+/* ---------- герой ---------- */
+.hero{padding:6px 0 22px}
+.kick{font-size:11px; text-transform:uppercase; letter-spacing:.2em; color:var(--lime); font-weight:500}
+.hero h1{
+  font:600 clamp(28px,8.4vw,40px)/1.05 var(--fd); letter-spacing:-.035em;
+  margin:10px 0 12px;
+}
+.hero p{margin:0; color:var(--t2); font-size:15px; max-width:46ch}
+.hero p + p{margin-top:12px}
+.hero .herofoot{font-size:12.5px; color:var(--t3); max-width:46ch}
+
+/* ---------- кто я (по тапу на фото) ---------- */
+.mark{cursor:pointer}
+.who span{cursor:pointer}
+.me{
+  display:none; margin:0 0 20px; padding:16px 16px 6px;
+  border:1px solid var(--line2); border-radius:var(--rad); background:var(--card);
+  font-size:14.5px; line-height:1.6; color:var(--t2);
+}
+.me.on{display:block; animation:rise .2s ease}
+.me h4{margin:0 0 12px; font:600 16px/1.25 var(--fd); letter-spacing:-.02em; color:var(--txt)}
+.me p{margin:0 0 11px}
+.me b{color:var(--txt)}
+.me .mnum{color:var(--lime); font-weight:600; white-space:nowrap}
+
+/* ---------- полоса оффера внутри шагов ---------- */
+.ahead{
+  margin:30px 0 0; padding:11px 0 11px 13px; border-left:2px solid rgba(200,242,77,.4);
+  font-size:13.5px; line-height:1.5; color:var(--t2);
+}
+body.deep .hero{padding:0 0 12px}
+body.deep .hero h1{font-size:19px; margin:6px 0 0; letter-spacing:-.02em}
+body.deep .hero p,body.deep .hero .kick{display:none}
+
+/* ---------- рельс шагов ---------- */
+.railwrap{
+  position:sticky; top:0; z-index:9; margin:0 calc(var(--pad) * -1); padding:10px var(--pad) 12px;
+  background:linear-gradient(to bottom,var(--bg) 72%,rgba(11,19,16,.86));
+  backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--line);
+}
+.rail{display:flex; gap:6px}
+.notch{
+  flex:1; height:32px; border:1px solid var(--line); background:var(--card);
+  border-radius:9px; color:var(--t3); font:500 13px/1 var(--ff);
+  display:grid; place-items:center; cursor:pointer; padding:0;
+  transition:background .18s,border-color .18s,color .18s;
+}
+.notch.done{color:var(--lime); border-color:rgba(200,242,77,.32); background:var(--lime-dim)}
+.notch.active{background:var(--lime); border-color:var(--lime); color:var(--ink); font-weight:600}
+.notch.lock{opacity:.45; cursor:default}
+.notch svg{width:13px; height:13px; fill:currentColor}
+.railmeta{display:flex; align-items:baseline; gap:10px; margin-top:9px; font-size:12.5px; color:var(--t3)}
+.railmeta .now{color:var(--txt); font-weight:500; letter-spacing:-.01em}
+.railmeta .pct{margin-left:auto; white-space:nowrap}
+.railmeta .pct b{color:var(--lime); font-weight:600}
+.railnote{font-size:12px; color:var(--t3); margin-top:6px; line-height:1.4}
+body.deep .railnote{display:none}
+
+/* ---------- каркас блока ---------- */
+.stage{padding:22px 0 26px; min-height:52vh}
+.beye{display:flex; align-items:center; gap:10px; margin-bottom:14px}
+.beye .n{font:500 11px/1 var(--fd); letter-spacing:.06em; color:var(--t3)}
+.beye span:last-child{
+  font-size:11px; text-transform:uppercase; letter-spacing:.16em; color:var(--lime);
+  padding:5px 9px; border:1px solid rgba(200,242,77,.28); border-radius:99px; background:var(--lime-dim);
+}
+.btitle{font:600 clamp(21px,5.6vw,26px)/1.2 var(--fd); letter-spacing:-.03em; margin:0 0 10px}
+.bwhy{color:var(--t2); font-size:15px; margin-bottom:22px}
+.bwhy b{color:var(--txt)}
+
+/* ---------- поля ---------- */
+label.q{display:block; font-weight:600; font-size:15.5px; letter-spacing:-.01em; margin:24px 0 5px}
+.hint{color:var(--t3); font-size:13px; line-height:1.45; margin-bottom:9px}
+.hint b{color:var(--t2)}
+textarea,input[type=text]{
+  width:100%; background:var(--card); color:var(--txt);
+  border:1px solid var(--line); border-radius:var(--rad);
+  padding:13px 14px; font:400 16px/1.5 var(--ff); resize:none;
+  transition:border-color .16s,background .16s;
+}
+textarea{min-height:96px; overflow:hidden}
+textarea::placeholder,input::placeholder{color:var(--t3)}
+textarea:focus,input[type=text]:focus{outline:none; border-color:var(--lime2); background:var(--card2)}
+
+/* ---------- сохранение ---------- */
+.savebar{
+  display:flex; gap:11px; align-items:flex-start;
+  background:var(--card); border:1px solid var(--line); border-radius:var(--rad);
+  padding:13px 14px; font-size:13.5px; color:var(--t2); margin-bottom:22px;
+}
+.savebar .ic{
+  flex:none; width:22px; height:22px; border-radius:50%; background:var(--lime-dim);
+  color:var(--lime); display:grid; place-items:center; font-size:12px;
+}
+.savebar .seen{display:block; margin-top:6px; color:var(--t3); font-size:12.5px}
+
+/* ---------- рычаги ---------- */
+.lev-count{font-size:13px; color:var(--t3); margin-bottom:14px}
+.lev-count b{color:var(--txt)}
+.lever{border-top:1px solid var(--line); padding:15px 0 9px}
+.lever:first-of-type{border-top:none}
+.lever.moat{
+  border:1px solid rgba(200,242,77,.28); background:var(--lime-dim);
+  border-radius:var(--rad); padding:15px 14px 11px; margin-top:12px;
+}
+.lev-head{display:flex; align-items:center; gap:12px}
+.lev-name{display:flex; align-items:center; gap:9px; font-weight:600; font-size:15.5px; letter-spacing:-.01em}
+.lx{
+  font:500 10px/1 var(--fd); letter-spacing:.02em; color:var(--t3);
+  border:1px solid var(--line2); border-radius:5px; padding:4px 5px;
+}
+.lever.moat .lx{color:var(--lime); border-color:rgba(200,242,77,.4)}
+.lev-val{margin-left:auto; font:500 14px/1 var(--fd); color:var(--t3); white-space:nowrap}
+.lever.rated .lev-val{color:var(--lime)}
+.lev-desc{color:var(--t3); font-size:13px; line-height:1.45; margin-top:5px}
+input[type=range]{
+  -webkit-appearance:none; appearance:none; width:100%; height:30px;
+  background:transparent; margin:2px 0 0; display:block;
+}
+input[type=range]::-webkit-slider-runnable-track{
+  height:6px; border-radius:99px;
+  background:linear-gradient(90deg,var(--lime) var(--v,50%),rgba(255,255,255,.09) var(--v,50%));
+}
+input[type=range]::-webkit-slider-thumb{
+  -webkit-appearance:none; width:22px; height:22px; margin-top:-8px; border-radius:50%;
+  background:var(--lime); border:3px solid var(--bg); box-shadow:0 2px 10px rgba(0,0,0,.55);
+}
+input[type=range]::-moz-range-track{height:6px; border-radius:99px; background:rgba(255,255,255,.09)}
+input[type=range]::-moz-range-progress{height:6px; border-radius:99px; background:var(--lime)}
+input[type=range]::-moz-range-thumb{
+  width:18px; height:18px; border-radius:50%; background:var(--lime);
+  border:3px solid var(--bg); box-shadow:0 2px 10px rgba(0,0,0,.55);
+}
+
+/* ---------- история под диагнозом ---------- */
+.proof{display:none}
+.proof.show{
+  display:block; margin-top:14px; padding:16px 16px 6px;
+  border:1px solid var(--line2); border-radius:var(--rad); background:var(--card);
+  font-size:14.5px; line-height:1.6; color:var(--t2);
+}
+.proof .dt{
+  font-size:11px; text-transform:uppercase; letter-spacing:.18em;
+  color:var(--lime); margin-bottom:10px; font-weight:500;
+}
+.proof p{margin:0 0 11px}
+.proof b{color:var(--txt); font-weight:500}
+.proof .cnum{color:var(--lime); font-weight:600; white-space:nowrap}
+.proof .pfoot{padding:11px 0 12px; font-size:12.5px; color:var(--t3); line-height:1.45}
+
+/* ---------- диагноз ---------- */
+.diag{display:none}
+.diag.show{
+  display:block; margin-top:20px; padding:16px;
+  border:1px solid var(--line2); border-radius:var(--rad); background:var(--card);
+  font-size:14.5px; color:var(--t2);
+}
+.diag .dt{
+  font-size:11px; text-transform:uppercase; letter-spacing:.18em;
+  color:var(--lime); margin-bottom:8px; font-weight:500;
+}
+.loop{
+  display:inline-flex; align-items:center; gap:8px; margin-top:12px;
+  border:1px solid var(--line2); border-radius:99px; padding:8px 13px;
+  font-size:13px; color:var(--txt); text-decoration:none; background:var(--bg2);
+}
+.loop .lm{font:500 10px/1 var(--fd); color:var(--lime)}
+.loop.off{color:var(--t3); cursor:default}
+
+/* ---------- «что это» ---------- */
+.note{border:1px solid var(--line); border-radius:var(--rad); background:var(--card); margin:18px 0}
+.note-h{
+  display:flex; align-items:center; gap:9px; width:100%; text-align:left;
+  background:none; border:0; padding:13px 14px; cursor:pointer;
+  font-size:14.5px; font-weight:500; letter-spacing:-.01em;
+}
+.qm{
+  flex:none; width:19px; height:19px; border-radius:50%; background:var(--lime-dim);
+  color:var(--lime); font:600 11px/19px var(--ff); text-align:center;
+}
+.note-h .ch{margin-left:auto; color:var(--t3); transition:transform .2s}
+.note.open .note-h .ch{transform:rotate(180deg)}
+.note-b{display:none; padding:0 14px 15px; font-size:14px; color:var(--t2); line-height:1.6}
+.note.open .note-b{display:block; animation:rise .2s ease}
+.note-b .ex{
+  margin-top:11px; padding:11px 12px; border-left:2px solid var(--lime);
+  background:var(--bg2); border-radius:0 10px 10px 0; font-size:13.5px; color:var(--t2);
+}
+@keyframes rise{from{opacity:0; transform:translateY(-4px)}to{opacity:1; transform:none}}
+
+/* ---------- примеры из чужой ниши ---------- */
+.ex-wrap{margin:16px 0}
+.ex-btn{
+  background:none; border:1px dashed var(--line2); border-radius:99px;
+  color:var(--t2); font-size:13px; padding:8px 14px; cursor:pointer;
+}
+.ex-body{display:none; margin-top:12px}
+.ex-body.open{display:block; animation:rise .2s ease}
+.ex-note{font-size:12.5px; color:var(--t3); margin-bottom:10px; line-height:1.45}
+.ex-row{
+  display:flex; gap:11px; align-items:flex-start; padding:12px 13px;
+  border-radius:12px; font-size:13.5px; line-height:1.5; margin-bottom:8px; background:var(--card);
+}
+.ex-tag{
+  flex:none; font:500 9.5px/1 var(--fd); letter-spacing:.1em; padding:5px 7px;
+  border-radius:5px; margin-top:2px;
+}
+.ex-strong{border:1px solid rgba(200,242,77,.24)}
+.ex-strong .ex-tag{background:var(--lime); color:var(--ink)}
+.ex-weak{border:1px solid var(--line); color:var(--t3)}
+.ex-weak .ex-tag{background:var(--line2); color:var(--t2)}
+
+/* ---------- повторяемые поля ---------- */
+.rep-item{position:relative; margin-bottom:10px}
+.rep-item textarea{padding-right:44px}
+.rep-del{
+  position:absolute; top:8px; right:8px; width:28px; height:28px; border-radius:8px;
+  background:var(--bg2); border:1px solid var(--line); color:var(--t3);
+  font-size:16px; line-height:1; cursor:pointer;
+}
+.add{
+  width:100%; background:none; border:1px dashed var(--line2); color:var(--t2);
+  border-radius:var(--rad); padding:12px; font-size:14px; cursor:pointer; margin-top:2px;
+}
+.add:active{background:var(--card)}
+
+/* ---------- две колонки ---------- */
+.split{display:grid; gap:14px; margin-top:6px}
+.col h4{
+  margin:0 0 7px; font-size:11px; text-transform:uppercase; letter-spacing:.16em;
+  color:var(--lime); font-weight:500;
+}
+@media(min-width:560px){.split{grid-template-columns:1fr 1fr}}
+
+/* ---------- карта угла (сигнатурный блок) ---------- */
+.map{border:1px solid var(--line2); border-radius:var(--rad-lg); padding:16px; background:var(--card); margin-bottom:8px}
+.map-top{display:flex; align-items:baseline; gap:10px; margin-bottom:14px}
+.mt{font-size:11px; text-transform:uppercase; letter-spacing:.16em; color:var(--t3); font-weight:500}
+.map-fill{margin-left:auto; font-size:12px; color:var(--t3); white-space:nowrap}
+.map-fill b{color:var(--lime)}
+.slot{padding:11px 0; border-top:1px dashed var(--line2)}
+.slot:first-of-type{border-top:none; padding-top:0}
+.slot .k{font-size:11px; text-transform:uppercase; letter-spacing:.13em; color:var(--t3); margin-bottom:4px}
+.slot .v{font-size:14px; color:var(--txt); line-height:1.5; overflow-wrap:anywhere}
+.goto{
+  background:none; border:0; padding:0; color:var(--amber);
+  font-size:13.5px; cursor:pointer; text-align:left; text-decoration:underline;
+  text-decoration-style:dotted; text-underline-offset:3px;
+}
+.angle-final{margin-top:14px; padding:14px; border-radius:14px; background:var(--lime-dim); border:1px solid rgba(200,242,77,.3)}
+.angle-final .k{font-size:11px; text-transform:uppercase; letter-spacing:.13em; color:var(--lime); margin-bottom:5px}
+.angle-final .v{font-size:15px; line-height:1.5; overflow-wrap:anywhere}
+.angle-final .v.empty,.slot .v.empty{color:var(--t3)}
+
+/* ---------- кейсы ---------- */
+.uselinks{margin-top:30px; padding-top:24px; border-top:1px solid var(--line)}
+.uselinks h5{margin:0; font:600 17px/1.25 var(--fd); letter-spacing:-.02em}
+.uselinks .sub{font-size:13px; color:var(--t3); margin:6px 0 16px}
+
+.case{border:1px solid var(--line); border-radius:var(--rad); padding:16px; background:var(--card); margin-bottom:12px}
+.chead{display:flex; gap:12px; align-items:center; margin-bottom:13px}
+.cface{width:52px; height:52px; border-radius:50%; flex:none; overflow:hidden; border:1px solid var(--line2)}
+.cface img{width:100%; height:100%; object-fit:cover; display:block}
+.cwho{min-width:0}
+.cname{font:600 16px/1.15 var(--fd); letter-spacing:-.02em}
+.cniche{font-size:12.5px; color:var(--t3); margin-top:3px}
+.cig{display:inline-flex; align-items:center; gap:5px; margin-top:5px; font-size:12px;
+  color:var(--lime); text-decoration:none}
+.cig:hover{text-decoration:underline}
+
+.cstory{font-size:14px; line-height:1.6; color:var(--t2)}
+.cstory p{margin:0 0 10px}
+.cstory p:last-child{margin-bottom:0}
+.cstory b{color:var(--txt)}
+.cstory .said{
+  border-left:2px solid var(--lime); padding:2px 0 2px 12px; margin:12px 0;
+  color:var(--txt); font-size:13.5px;
+}
+.cnum{color:var(--lime); font-weight:600; white-space:nowrap}
+
+.cbar{display:flex; gap:10px; align-items:center; margin:13px 0; padding:11px 13px;
+  background:var(--bg2); border-radius:12px; flex-wrap:wrap}
+.cbar .was{color:var(--t3); font-size:13px}
+.cbar .arr{color:var(--t3)}
+.cbar .now{color:var(--lime); font:600 15px/1 var(--fd); letter-spacing:-.02em}
+.cbar .cap{width:100%; font-size:11.5px; color:var(--t3); margin-top:2px}
+
+.clinks{display:flex; flex-wrap:wrap; gap:8px; margin-top:13px}
+.clinks a{display:inline-flex; align-items:center; gap:8px; text-decoration:none;
+  border:1px solid var(--line2); border-radius:99px; padding:9px 14px;
+  font-size:13px; background:var(--bg2); color:var(--txt)}
+.clinks a:hover{border-color:var(--lime); color:var(--lime)}
+.pl{font-size:11px; color:var(--lime)}
+.case-note{font-size:13px; color:var(--t2); line-height:1.6; margin-top:6px;
+  padding:14px; background:var(--bg2); border-radius:12px}
+.case-note b{color:var(--txt)}
+
+/* ---------- до и после ---------- */
+.ba{margin:16px 0 4px}
+.ba-t{
+  font-size:11px; text-transform:uppercase; letter-spacing:.16em;
+  color:var(--t3); margin-bottom:10px; font-weight:500;
+}
+.ba-grid{display:grid; gap:10px}
+@media(min-width:520px){.ba-grid{grid-template-columns:1fr 1fr; align-items:start}}
+.ba-item{border:1px solid var(--line2); border-radius:12px; overflow:hidden; background:var(--bg2)}
+.ba-item.now{border-color:rgba(200,242,77,.32)}
+.ba-item img{width:100%; display:block}
+.ba-lab{padding:9px 11px; font-size:12px; color:var(--t3); line-height:1.4}
+.ba-lab b{
+  font:600 10px/1 var(--fd); letter-spacing:.1em; text-transform:uppercase;
+  color:var(--t2); margin-right:8px;
+}
+.ba-item.now .ba-lab b{color:var(--lime)}
+.ba-note{font-size:13.5px; color:var(--t2); line-height:1.55; margin-top:12px}
+.ba-note b{color:var(--txt)}
+
+/* ---------- шаблоны, хуки ---------- */
+.tpl{border:1px solid var(--line); border-radius:var(--rad); padding:15px 16px; background:var(--card); margin:12px 0}
+.tpl h5{margin:0 0 10px; font:600 15px/1.2 var(--fd); letter-spacing:-.02em}
+.tpl ol{margin:0; padding-left:19px; font-size:14px; color:var(--t2); line-height:1.55}
+.tpl ol li{margin-bottom:9px}
+.tpl ol li:last-child{margin-bottom:0}
+.tpl ol li::marker{color:var(--lime); font-weight:600}
+.hooks{list-style:none; margin:10px 0 0; padding:0}
+.hooks li{
+  border:1px solid var(--line); border-radius:12px; padding:11px 13px;
+  margin-bottom:8px; font-size:13px; font-weight:600; background:var(--card);
+}
+.hooks li span{display:block; font-weight:400; color:var(--t2); margin-top:4px; font-size:13.5px}
+
+/* ---------- чек перед публикацией ---------- */
+.gate{border:1px solid var(--line); border-radius:var(--rad); background:var(--card); overflow:hidden}
+.ck{display:flex; gap:11px; align-items:flex-start; padding:13px 14px; border-top:1px solid var(--line); cursor:pointer}
+.ck:first-child{border-top:none}
+.ck input{
+  appearance:none; -webkit-appearance:none; flex:none; margin:1px 0 0;
+  width:20px; height:20px; border:1px solid var(--line2); border-radius:6px; background:var(--bg2);
+}
+.ck input:checked{background:var(--lime) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3 8.5l3.2 3.2L13 5' fill='none' stroke='%230c1710' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/14px no-repeat; border-color:var(--lime)}
+.ck .txt{font-size:14px; line-height:1.45}
+.ck .lk{color:var(--t3); font-size:12.5px}
+.verdict{margin-top:12px; padding:13px 14px; border-radius:var(--rad); font-size:14px; line-height:1.45}
+.verdict.yes{background:var(--lime-dim); border:1px solid rgba(200,242,77,.3); color:var(--lime)}
+.verdict.no{background:var(--card); border:1px solid var(--line); color:var(--t2)}
+
+/* ---------- финал ---------- */
+.finale{
+  display:none; margin:22px 0 0; padding:16px; border-radius:var(--rad);
+  background:var(--lime-dim); border:1px solid rgba(200,242,77,.3);
+}
+.finale.on{display:block; animation:rise .3s ease}
+.finale .ft{font:600 16px/1.25 var(--fd); letter-spacing:-.02em; color:var(--lime); margin-bottom:6px}
+.finale p{margin:0 0 12px; font-size:13.5px; color:var(--t2)}
+.rowbtn{display:flex; flex-wrap:wrap; gap:8px}
+.mini{
+  background:var(--bg2); border:1px solid var(--line2); color:var(--txt);
+  border-radius:99px; padding:9px 14px; font-size:13px; cursor:pointer;
+}
+.mini.danger{color:var(--amber); border-color:rgba(255,192,120,.3)}
+.mini.go{background:var(--lime); border-color:var(--lime); color:var(--ink); font-weight:600}
+
+/* ---------- кремовый терминальный блок ---------- */
+.next{
+  position:relative; margin:30px 0 0; padding:24px 20px 22px;
+  background:var(--cream); color:var(--ink); border-radius:var(--rad-lg);
+}
+.nx-close{
+  position:absolute; top:12px; right:12px; width:28px; height:28px; border-radius:50%;
+  border:0; background:rgba(12,23,16,.08); color:var(--ink); font-size:16px; line-height:1; cursor:pointer;
+}
+.next .kick{color:#5c7a4a; font-size:10.5px; letter-spacing:.2em}
+.next h3{font:600 21px/1.2 var(--fd); letter-spacing:-.03em; margin:10px 0 12px}
+.next p{margin:0 0 12px; font-size:14.5px; line-height:1.55; color:#33453a}
+.next p.soft{font-size:13px; color:#5f7264}
+.pf{font-weight:600; color:var(--ink); box-shadow:inset 0 -7px 0 rgba(158,209,44,.45)}
+.cta{
+  display:flex; align-items:center; gap:13px; text-decoration:none; margin-top:18px;
+  background:var(--ink); color:var(--cream); border-radius:17px; padding:13px 15px 13px 13px;
+  box-shadow:0 10px 24px rgba(12,23,16,.2);
+  transition:transform .14s ease,box-shadow .14s ease;
+}
+.cta:active{transform:translateY(1px); box-shadow:0 5px 14px rgba(12,23,16,.2)}
+.cta .play{
+  flex:none; width:42px; height:42px; border-radius:50%; background:var(--lime); color:var(--ink);
+  display:grid; place-items:center;
+}
+.cta .play svg{width:14px; height:14px; fill:currentColor; margin-left:2px}
+.cta .lbl{min-width:0}
+.cta .lbl b{display:block; font:600 15.5px/1.25 var(--ff); letter-spacing:-.015em; color:var(--cream)}
+.cta .lbl small{display:block; font-size:12.5px; line-height:1.35; color:rgba(243,236,224,.55); margin-top:4px}
+.cta.off{opacity:.4; pointer-events:none}
+
+/* ---------- нижняя навигация ---------- */
+.nav{
+  position:sticky; bottom:0; z-index:9; display:flex; align-items:center; gap:10px;
+  margin:0 calc(var(--pad) * -1); padding:10px var(--pad) calc(10px + env(safe-area-inset-bottom));
+  background:linear-gradient(to top,var(--bg) 68%,rgba(11,19,16,.86));
+  backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px);
+  border-top:1px solid var(--line);
+}
+.btn{
+  border-radius:13px; padding:13px 16px; font-size:14.5px; font-weight:600;
+  border:1px solid var(--line2); background:var(--card); cursor:pointer; white-space:nowrap;
+}
+.btn.primary{background:var(--lime); border-color:var(--lime); color:var(--ink); margin-left:auto}
+.btn:disabled{opacity:.35; cursor:default}
+.gatehint{font-size:12px; color:var(--amber); line-height:1.3; flex:1; min-width:0}
+
+/* ---------- тост ---------- */
+.saved{
+  position:fixed; left:50%; bottom:calc(78px + env(safe-area-inset-bottom)); z-index:30;
+  transform:translate(-50%,12px); opacity:0; pointer-events:none;
+  background:var(--card2); border:1px solid var(--line2); color:var(--t2);
+  border-radius:99px; padding:8px 15px; font-size:12.5px; white-space:nowrap;
+  transition:opacity .22s,transform .22s;
+}
+.saved.on{opacity:1; transform:translate(-50%,0)}
+
+/* ---------- диагностика (только по ?debug=1) ---------- */
+.dbg{
+  position:fixed; left:10px; right:10px; bottom:calc(78px + env(safe-area-inset-bottom)); z-index:40;
+  background:#0f1a15; border:1px solid var(--line2); border-radius:14px; padding:13px 14px;
+  font:400 12.5px/1.5 var(--ff); color:var(--t2); max-width:620px; margin:0 auto;
+}
+.dbg h6{margin:0 0 8px; font:600 12px/1 var(--fd); color:var(--lime); letter-spacing:.04em}
+.dbg .r{display:flex; gap:8px; padding:3px 0; align-items:flex-start}
+.dbg .r b{color:var(--txt); font-weight:500; flex:none; min-width:96px}
+.dbg .v{overflow-wrap:anywhere}
+.dbg .ok{color:var(--lime)}
+.dbg .bad{color:var(--amber)}
+.dbg .btns{display:flex; gap:8px; margin-top:10px; flex-wrap:wrap}
+.dbg button{
+  background:var(--lime); border:0; color:var(--ink); border-radius:99px;
+  padding:8px 13px; font-size:12.5px; font-weight:600; cursor:pointer;
+}
+.dbg button.ghost{background:transparent; border:1px solid var(--line2); color:var(--t2)}
+
+/* ---------- загрузка ---------- */
+.boot{
+  position:fixed; inset:0; z-index:60; background:var(--bg);
+  display:grid; place-items:center; transition:opacity .3s;
+}
+.boot.gone{opacity:0; pointer-events:none}
+.boot i{
+  width:26px; height:26px; border-radius:50%; border:2px solid var(--line2);
+  border-top-color:var(--lime); animation:spin .7s linear infinite;
+}
+@keyframes spin{to{transform:rotate(1turn)}}
+
+@media (prefers-reduced-motion:reduce){
+  *{animation-duration:.001ms !important; transition-duration:.001ms !important}
+}
+</style>
+</head>
+<body>
+
+<div class="boot" id="boot"><i></i></div>
+
+<div class="wrap">
+
+  <header class="top">
+    <div class="mark"><img src="data:image/jpeg;base64,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" alt="Вероника Филатова"></div>
+    <div class="who"><b>Вероника Филатова</b><span>нажми на фото, кто я</span></div>
+    <div class="ring" id="ring"><i id="ghpct">0%</i></div>
+  </header>
+
+  <section class="me" id="me">
+    <h4>Кто я</h4>
+    <p>Вероника Филатова. Вместе с партнёром строю <b>ScaleFil</b>: я отвечаю за контент и позиционирование, партнёр за воронки и продажи. За полтора года наши клиенты заработали больше <span class="mnum">41 миллиона рублей</span>, и мы привели им больше <span class="mnum">1,5 миллиона подписчиков</span>.</p>
+    <p>Про угол я долблю так упёрто, потому что трижды своими глазами смотрела, как большие охваты не превращаются в деньги.</p>
+    <p>Начну с себя. Мой личный рекорд по просмотрам до сих пор вот такой: два с половиной миллиона на ролике длиной шесть секунд под трендовое аудио. Подписалась сотня человек, клиентов ноль. Красивый был ролик.</p>
+    <p>Потом я пошла продюсером к эксперту, который набрал триста тысяч подписчиков за полгода. Мы три месяца грели аудиторию, сделали два запуска и заработали сорок тысяч рублей на двоих. Люди приходили, смотрели и уходили, потому что не понимали, зачем с ним оставаться.</p>
+    <p>После этого была контент-директором. Больше десяти миллионов просмотров и двадцать тысяч подписчиков за три месяца при нулевом бюджете на рекламу. Клиент платил сто восемьдесят пять тысяч в месяц, мне чистыми оставалось пятьдесят. Оффера мы так и не собрали, и вся эта аудитория ушла в трубу.</p>
+    <p>Три раза подряд одна и та же дыра, и ни разу дело не упиралось в качество роликов.</p>
+  </section>
+
+  <section class="hero">
+    <div class="kick">Воркбук · 15 минут</div>
+    <h1>Собери свой угол</h1>
+    <p>Семь шагов. На выходе три вещи: твой угол одним предложением, три сценария под него и один снятый ролик. Третье и есть смысл всей затеи, первые две подготовка к нему.</p>
+    <p class="herofoot">Всё сохраняется само, можно закрыть и вернуться на том же месте. Начинай с первого шага, он на полторы минуты.</p>
+  </section>
+
+  <nav class="railwrap">
+    <div class="rail" id="rail"></div>
+    <div class="railmeta">
+      <span class="now" id="railName">Шаг 1 · Аудит</span>
+      <span class="pct">угол собран на <b id="mapPct">0%</b></span>
+    </div>
+    <div class="railnote">Иди по порядку, так угол собирается быстрее. Перепрыгнуть можно в любой момент, всё сохраняется само.</div>
+  </nav>
+
+  <main class="stage" id="stage"></main>
+
+  <footer class="nav">
+    <button class="btn" id="prev" type="button">← Назад</button>
+    <div class="gatehint" id="gatehint"></div>
+    <button class="btn primary" id="next" type="button">Дальше →</button>
+  </footer>
+
+</div>
+
+<div class="saved" id="saved">сохранено</div>
+
+<script>
+/* =====================================================================
+   ВОРКБУК «СОБЕРИ СВОЙ УГОЛ»
+   Один файл. Работает и внутри Telegram, и в обычном браузере.
+   ===================================================================== */
+
+/* ============================ НАСТРОЙКИ ==============================
+   TODO Вероника: сюда вставляются ссылки. Пустая строка = блок просто
+   не показывает кнопку, ничего не ломается.
+   ===================================================================== */
+
+/* Тайм-коды на цельный ролик курса. Ключ = номер рычага (1–9).
+   Формат: 'https://youtu.be/ВИДЕО?t=125' */
+const TIMECODE = {
+  1: 'https://agent-6a4e0aff0af1852cb53130f2--filatowadiplink.netlify.app/?u=https%3A%2F%2Fyoutu.be%2F1HeV4CwBRkA%3Ft%3D1072',
+  2: 'https://agent-6a4e0aff0af1852cb53130f2--filatowadiplink.netlify.app/?u=https%3A%2F%2Fyoutu.be%2F1HeV4CwBRkA%3Ft%3D2352',
+  3: 'https://agent-6a4e0aff0af1852cb53130f2--filatowadiplink.netlify.app/?u=https%3A%2F%2Fyoutu.be%2F1HeV4CwBRkA%3Ft%3D4729',
+  4: 'https://agent-6a4e0aff0af1852cb53130f2--filatowadiplink.netlify.app/?u=https%3A%2F%2Fyoutu.be%2F1HeV4CwBRkA%3Ft%3D5643',
+  5: 'https://agent-6a4e0aff0af1852cb53130f2--filatowadiplink.netlify.app/?u=https%3A%2F%2Fyoutu.be%2F1HeV4CwBRkA%3Ft%3D6796',
+  6: 'https://agent-6a4e0aff0af1852cb53130f2--filatowadiplink.netlify.app/?u=https%3A%2F%2Fyoutu.be%2F1HeV4CwBRkA%3Ft%3D7607',
+  7: 'https://agent-6a4e0aff0af1852cb53130f2--filatowadiplink.netlify.app/?u=https%3A%2F%2Fyoutu.be%2F1HeV4CwBRkA%3Ft%3D8958',
+  8: 'https://agent-6a4e0aff0af1852cb53130f2--filatowadiplink.netlify.app/?u=https%3A%2F%2Fyoutu.be%2F1HeV4CwBRkA%3Ft%3D10078',
+  9: 'https://agent-6a4e0aff0af1852cb53130f2--filatowadiplink.netlify.app/?u=https%3A%2F%2Fyoutu.be%2F1HeV4CwBRkA%3Ft%3D10859'
+};
+
+/* Видео разбор «Архитектура Касаний» */
+const LANDING = 'https://scalefil.com/main-book-nf';
+
+
+
+/* Ролики учеников: [0] Антон, [1] Кирилл */
+const USE_EXAMPLES = [
+  'https://www.instagram.com/reel/DZ_BlSAtaNg/',
+  'https://www.instagram.com/reel/Da3Q4I6RWBo/'
+];
+
+/* Ролик Тараса */
+const TARAS_REEL = 'https://www.instagram.com/reel/DbkrHv_hENd/';
+
+/* Интервью с Антоном. Пусто = кнопка просто не появится. */
+const ANTON_INTERVIEW = '';   // TODO Вероника: ссылка на интервью
+
+/* Профили в Instagram. Пусто = ссылка под именем не показывается. */
+const IG = {
+  anton:  'korolev.mind',
+  kirill: 'kir_novik',
+  taras:  'tadeshiii'
+};
+
+/* ---------------------------------------------------------------------
+   ПРИЁМНИК ОТВЕТОВ. Сюда стекаются ответы всех, кто проходит воркбук.
+   Вставь адрес веб-приложения из Google Apps Script (см. инструкцию).
+   Пустая строка = отправка выключена, воркбук работает как раньше.
+   --------------------------------------------------------------------- */
+const SYNC_URL = 'https://script.google.com/macros/s/AKfycbzTzf8tsySlxpuFIk650AkSseLecruMZ3FhfGGaS_BUVOd-lcI8hVgecBbskm-R_13CaA/exec';
+
+/* Префикс ключей хранилища. Меняешь префикс — у всех начинается с нуля. */
+const NS = 'wb9_';
+
+/* Порядок и номера один в один как в курсе, чтобы Р5 и Р7 вели туда же, куда в видео */
+const LEVERS = [
+  ['Хук','Первые секунды: зритель остаётся или свайпает'],
+  ['Визуал','Кадр и образ: свет, фон, ракурс, как ты выглядишь и какой статус с тебя считывают'],
+  ['Звук','Насколько чисто тебя слышно и попадает ли музыка в твой темп'],
+  ['Монтаж','Ритм и чистота: доходит ли мысль без трения'],
+  ['Сценарий','Тело ролика: одна мысль, раскрытая до конца'],
+  ['Подача','Как ты говоришь: энергия, темп, паузы, уверенность в кадре'],
+  ['Формат','Контейнер, в который всё это упаковано, и под кого он собран'],
+  ['Призыв','Куда ведёшь зрителя, чтобы просмотр стал заявкой'],
+  ['Угол','Через чью призму всё подано. Единственное, что не копируется']
+];
+
+const FACES = {
+  anton:  'data:image/jpeg;base64,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',
+  kirill: 'data:image/jpeg;base64,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',
+  taras:  'data:image/jpeg;base64,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'
+};
+
+const NAMES = ['Аудит','Путь','Против течения','Кого зовёшь','Боли','Сборка угла','Финиш'];
+
+/* ============================= TELEGRAM ============================== */
+
+const tg = (window.Telegram && window.Telegram.WebApp) ? window.Telegram.WebApp : null;
+const hasCloud = !!(tg && tg.CloudStorage && (!tg.isVersionAtLeast || tg.isVersionAtLeast('6.9')));
+
+if (tg) {
+  try {
+    tg.ready();
+    tg.expand();
+    if (tg.isVersionAtLeast && tg.isVersionAtLeast('6.9')) {
+      if (tg.setHeaderColor) tg.setHeaderColor('#0b1310');
+      if (tg.setBackgroundColor) tg.setBackgroundColor('#0b1310');
+    }
+    /* без этого перетаскивание ползунка утягивает окно вниз и закрывает мини-апп */
+    if (tg.disableVerticalSwipes) tg.disableVerticalSwipes();
+  } catch (e) {}
+}
+
+function haptic(kind) {
+  try {
+    if (!tg || !tg.HapticFeedback) return;
+    if (kind === 'select') tg.HapticFeedback.selectionChanged();
+    else if (kind === 'ok') tg.HapticFeedback.notificationOccurred('success');
+    else tg.HapticFeedback.impactOccurred(kind || 'light');
+  } catch (e) {}
+}
+
+function openLink(url) {
+  if (!url) return;
+  try {
+    if (tg && tg.openTelegramLink && url.indexOf('https://t.me/') === 0) { tg.openTelegramLink(url); return; }
+    if (tg && tg.openLink) { tg.openLink(url); return; }
+  } catch (e) {}
+  window.open(url, '_blank', 'noopener');
+}
+
+/* внутри Telegram target="_blank" срабатывает не всегда — перехватываем сами */
+document.addEventListener('click', function (e) {
+  const t = e.target;
+  const a = (t && t.closest) ? t.closest('a[href]') : null;
+  if (!a) return;
+  const href = a.getAttribute('href') || '';
+  if (!/^https?:/i.test(href)) return;
+  e.preventDefault();
+  openLink(href);
+});
+
+/* ============================= ХРАНИЛИЩЕ =============================
+   CloudStorage — синхронизация между устройствами, живёт у Telegram.
+   localStorage — фолбэк и страховка (браузер, старый клиент, обрыв сети).
+   Значение в CloudStorage ограничено 4096 символами, поэтому длинные
+   блоки режем на куски и собираем обратно при загрузке.
+   ===================================================================== */
+
+const CHUNK = 3500;
+let cloudOK = hasCloud;
+let chunks = {};              // сколько кусков реально лежит в облаке по каждому блоку
+let lastSaveCloud = false;
+
+function lsGet(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
+function lsSet(k, v) { try { localStorage.setItem(k, v); return true; } catch (e) { return false; } }
+function lsDel(k) { try { localStorage.removeItem(k); } catch (e) {} }
+
+function normalize(keys, vals) {
+  const out = {};
+  if (!vals) return out;
+  if (Array.isArray(vals)) { keys.forEach(function (k, i) { out[k] = vals[i]; }); return out; }
+  keys.forEach(function (k) { out[k] = vals[k]; });
+  return out;
+}
+
+function cloudGet(keys) {
+  return new Promise(function (res) {
+    if (!cloudOK || !keys.length) return res(null);
+    let settled = false;
+    const done = function (v) { if (!settled) { settled = true; res(v); } };
+    setTimeout(function () { done(null); }, 6000);   // клиент может не ответить — не зависаем
+    try { tg.CloudStorage.getItems(keys, function (err, vals) { done(err ? null : (vals || null)); }); }
+    catch (e) { done(null); }
+  });
+}
+
+function cloudSet(k, v) {
+  return new Promise(function (res) {
+    if (!cloudOK) return res(false);
+    let settled = false;
+    const done = function (v2) { if (!settled) { settled = true; res(v2); } };
+    setTimeout(function () { done(false); }, 6000);
+    try { tg.CloudStorage.setItem(k, v, function (err, ok) { done(!err && !!ok); }); }
+    catch (e) { done(false); }
+  });
+}
+
+function cloudDel(keys) {
+  return new Promise(function (res) {
+    if (!cloudOK || !keys.length) return res(false);
+    try { tg.CloudStorage.removeItems(keys, function (err, ok) { res(!err && !!ok); }); }
+    catch (e) { res(false); }
+  });
+}
+
+/* ============================== СТЕЙТ =============================== */
+
+const KEYS = ['b1','b2','b3','b4','b5','b6','b7'];
+let S = { b1:{}, b2:{}, b3:{}, b4:{}, b5:{}, b6:{}, b7:{} };
+let cur = 0;
+
+function applyRaw(k, raw) {
+  if (!raw) return false;
+  try {
+    const o = JSON.parse(raw);
+    if (o && typeof o === 'object') { S[k] = o; return true; }
+  } catch (e) {}
+  return false;
+}
+
+async function loadAll() {
+  /* 1. локальная копия — она есть всегда и мгновенно */
+  KEYS.forEach(function (k) { applyRaw(k, lsGet(NS + k)); });
+  let c = parseInt(lsGet(NS + 'cur'), 10);
+
+  /* 2. облако поверх локальной: где в облаке есть данные, там оно главнее */
+  if (cloudOK) {
+    const metaKeys = KEYS.map(function (k) { return NS + k + '_n'; }).concat([NS + 'cur']);
+    const metaRaw = await cloudGet(metaKeys);
+    if (!metaRaw) {
+      cloudOK = false;                               // облако недоступно, работаем локально
+    } else {
+      const meta = normalize(metaKeys, metaRaw);
+      const need = [];
+      KEYS.forEach(function (k) {
+        const n = parseInt(meta[NS + k + '_n'], 10);
+        chunks[k] = (n > 0 ? n : 0);
+        for (let i = 0; i < chunks[k]; i++) need.push(NS + k + '_' + i);
+      });
+      let parts = {};
+      if (need.length) parts = normalize(need, await cloudGet(need));
+      KEYS.forEach(function (k) {
+        if (!chunks[k]) return;
+        let raw = '';
+        for (let i = 0; i < chunks[k]; i++) raw += (parts[NS + k + '_' + i] || '');
+        applyRaw(k, raw);
+      });
+      const cc = parseInt(meta[NS + 'cur'], 10);
+      if (!isNaN(cc)) c = cc;
+    }
+  }
+
+  if (!isNaN(c) && c >= 0 && c < 7) cur = c;
+  if (!unlocked(cur)) cur = firstOpen();            // данные могли обнулиться — не садимся в закрытый шаг
+}
+
+async function persist(k) {
+  const raw = JSON.stringify(S[k] || {});
+  lsSet(NS + k, raw);
+  lsSet(NS + 'cur', String(cur));
+
+  if (!cloudOK) { lastSaveCloud = false; return; }
+
+  const parts = [];
+  for (let i = 0; i < raw.length; i += CHUNK) parts.push(raw.slice(i, i + CHUNK));
+  let ok = true;
+  for (let i = 0; i < parts.length; i++) {
+    const r = await cloudSet(NS + k + '_' + i, parts[i]);
+    ok = ok && r;
+  }
+  if (ok) {
+    ok = await cloudSet(NS + k + '_n', String(parts.length));
+    const prev = chunks[k] || 0;
+    if (prev > parts.length) {
+      const stale = [];
+      for (let i = parts.length; i < prev; i++) stale.push(NS + k + '_' + i);
+      cloudDel(stale);
+    }
+    chunks[k] = parts.length;
+    cloudSet(NS + 'cur', String(cur));
+  }
+  lastSaveCloud = ok;
+}
+
+/* ======================= ОТПРАВКА ОТВЕТОВ ===========================
+   Копия ответов уходит в общее хранилище (Google Таблица через
+   Apps Script). Локальное сохранение при этом никуда не девается:
+   если интернета нет, отправка встаёт в очередь и уходит позже.
+   ===================================================================== */
+
+const SYNC_Q = NS + 'q';
+let syncT = null;
+let syncSig = '';
+
+function anonId() {
+  let a = lsGet(NS + 'aid');
+  if (!a) {
+    a = 'web_' + Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+    lsSet(NS + 'aid', a);
+  }
+  return a;
+}
+
+function tgUser() {
+  try { return (tg && tg.initDataUnsafe && tg.initDataUnsafe.user) || null; }
+  catch (e) { return null; }
+}
+
+function payload() {
+  const u = tgUser();
+  const b1 = S.b1 || {}, b2 = S.b2 || {}, b3 = S.b3 || {},
+        b4 = S.b4 || {}, b5 = S.b5 || {}, b6 = S.b6 || {}, b7 = S.b7 || {};
+  return {
+    v: 1,
+    id: u ? ('tg_' + u.id) : anonId(),
+    source: u ? 'telegram' : 'web',
+    initData: (tg && tg.initData) ? tg.initData : '',
+    username: u ? (u.username || '') : '',
+    name: u ? ((u.first_name || '') + ' ' + (u.last_name || '')).trim() : '',
+    updated: new Date().toISOString(),
+    step: cur + 1,
+    pct: mapPct(),
+    finished: done(6),
+    levers: b1.lev || {},
+    turns: (b2.turns || []).filter(filled),
+    all: b3.all || '',
+    you: b3.you || '',
+    sub: b4.sub || '',
+    cli: b4.cli || '',
+    pain: b5.pain || '',
+    genius: b6.genius || '',
+    angle: b6.angle || '',
+    contact: b7.contact || '',
+    scripts: (b7.scripts || []).filter(filled),
+    video: b7.video || '',
+    gate: b7.gate || {}
+  };
+}
+
+let syncStatus = { state: 'нет попыток', at: '', detail: '' };
+
+function markSync(state, detail) {
+  syncStatus = {
+    state: state,
+    at: new Date().toLocaleTimeString('ru-RU'),
+    detail: detail || ''
+  };
+  drawDebug();
+}
+
+function post(txt, beacon) {
+  if (!SYNC_URL) { markSync('выключена', 'SYNC_URL пустой'); return; }
+
+  if (beacon && navigator.sendBeacon) {
+    try {
+      const blob = new Blob([txt], { type: 'text/plain;charset=UTF-8' });
+      if (navigator.sendBeacon(SYNC_URL, blob)) {
+        lsDel(SYNC_Q);
+        markSync('отправлено', 'фоном, при закрытии');
+        return;
+      }
+    } catch (e) {}
+  }
+
+  markSync('отправляю', '');
+  try {
+    /* text/plain, чтобы браузер не слал preflight: Apps Script его не принимает */
+    fetch(SYNC_URL, {
+      method: 'POST',
+      body: txt,
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      keepalive: true
+    }).then(function (r) {
+      lsDel(SYNC_Q);
+      markSync('доставлено', 'сервер ответил ' + r.status);
+    }, function (err) {
+      lsSet(SYNC_Q, txt);
+      markSync('не дошло', String(err && err.message ? err.message : err));
+    });
+  } catch (e) {
+    lsSet(SYNC_Q, txt);
+    markSync('не дошло', String(e));
+  }
+}
+
+function syncNow(beacon) {
+  if (!SYNC_URL) return;
+  const p = payload();
+  const sig = JSON.stringify(Object.assign({}, p, { updated: '', step: 0 }));
+  if (sig === syncSig && !beacon) return;      // ничего не поменялось, не дёргаем сервер
+  syncSig = sig;
+  post(JSON.stringify(p), beacon);
+}
+
+function syncSoon() {
+  if (!SYNC_URL) return;
+  if (syncT) clearTimeout(syncT);
+  syncT = setTimeout(function () { syncT = null; syncNow(false); }, 4000);
+}
+
+function syncRetry() {
+  if (!SYNC_URL) return;
+  const q = lsGet(SYNC_Q);
+  if (q) post(q, false);
+}
+
+/* пишем не на каждый символ, но по каждому блоку отдельно:
+   иначе быстрый переход между шагами отменял несохранённый текст */
+const timers = {};
+function save(k) {
+  refreshChrome();
+  syncSoon();
+  if (timers[k]) clearTimeout(timers[k]);
+  timers[k] = setTimeout(function () {
+    timers[k] = null;
+    persist(k).then(function () { toast(lastSaveCloud || !cloudOK ? 'сохранено' : 'сохранено на устройстве'); });
+  }, 600);
+}
+function flushAll() {
+  Object.keys(timers).forEach(function (k) {
+    if (timers[k]) { clearTimeout(timers[k]); timers[k] = null; persist(k); }
+  });
+  if (syncT) { clearTimeout(syncT); syncT = null; }
+  syncNow(true);
+}
+document.addEventListener('visibilitychange', function () { if (document.hidden) flushAll(); });
+window.addEventListener('pagehide', flushAll);
+
+/* ========================== ГОТОВНОСТЬ ШАГОВ ========================= */
+
+function filled(v) { return !!(v && String(v).trim()); }
+
+function done(i) {
+  const b = S['b' + (i + 1)] || {};
+  switch (i) {
+    case 0: return Object.keys(b.lev || {}).length >= 9;
+    case 1: return (b.turns || []).filter(filled).length >= 3;
+    case 2: return filled(b.all) && filled(b.you);
+    case 3: return filled(b.sub) && filled(b.cli);
+    case 4: return filled(b.pain);
+    case 5: return filled(b.angle) && filled(b.genius);
+    case 6: return (b.scripts || []).filter(filled).length >= 3 && filled(b.video);
+  }
+  return false;
+}
+
+function plural(n, one, few, many) {
+  const a = Math.abs(n) % 100, b = a % 10;
+  if (a > 10 && a < 20) return many;
+  if (b > 1 && b < 5) return few;
+  if (b === 1) return one;
+  return many;
+}
+
+/* что именно осталось сделать на шаге — вместо безликого «заполни этот шаг» */
+function missing(i) {
+  const b = S['b' + (i + 1)] || {};
+  let n;
+  switch (i) {
+    case 0:
+      n = 9 - Object.keys(b.lev || {}).length;
+      return n <= 0 ? '' : 'оцени ещё ' + n + ' ' + plural(n, 'рычаг', 'рычага', 'рычагов');
+    case 1:
+      n = 3 - (b.turns || []).filter(filled).length;
+      return n <= 0 ? '' : 'нужно ещё ' + n + ' ' + plural(n, 'поворот', 'поворота', 'поворотов');
+    case 2:
+      return done(2) ? '' : 'заполни оба поля';
+    case 3:
+      return done(3) ? '' : 'опиши и подписчика, и клиента';
+    case 4:
+      return done(4) ? '' : 'выпиши боли дословно';
+    case 5:
+      if (done(5)) return '';
+      if (!filled(b.genius)) return 'опиши свою зону гениальности';
+      return 'сформулируй угол одним предложением';
+    case 6:
+      if (done(6)) return '';
+      n = 3 - (b.scripts || []).filter(filled).length;
+      if (n > 0) return 'осталось ' + n + ' ' + plural(n, 'сценарий', 'сценария', 'сценариев');
+      return 'вставь ссылку на опубликованный ролик';
+  }
+  return '';
+}
+
+/* замков нет: человек ходит по шагам свободно, прогресс всё равно считается */
+function unlocked(i) { return i >= 0 && i < 7; }
+function firstOpen() { let i = 0; while (i < 6 && done(i)) i++; return i; }
+
+/* ============================ КАРТА УГЛА ============================ */
+
+function mapData() {
+  const b2 = S.b2 || {}, b3 = S.b3 || {}, b4 = S.b4 || {}, b5 = S.b5 || {}, b6 = S.b6 || {};
+  const turns = (b2.turns || []).filter(filled);
+  return [
+    { k:'Авторитет / путь',      src:1, v: turns.length ? turns.slice(0, 2).join(' · ') : '' },
+    { k:'Угол-ракурс',           src:2, v: b3.you || '' },
+    { k:'Зона гениальности',     src:5, here:1, v: b6.genius || '' },
+    { k:'Идеальный подписчик',   src:3, v: b4.sub || '' },
+    { k:'Идеальный клиент',      src:3, v: b4.cli || '' },
+    { k:'Боль их словами',       src:4, v: b5.pain || '' }
+  ];
+}
+function mapPct() {
+  const d = mapData(), f = d.filter(function (x) { return filled(x.v); }).length;
+  const a = filled((S.b6 || {}).angle) ? 1 : 0;
+  const l = done(0) ? 1 : 0;   /* аудит тоже кусок угла, иначе весь первый шаг висит 0% */
+  return Math.round(((f + a + l) / (d.length + 2)) * 100);
+}
+
+/* ============================= ХЕЛПЕРЫ ============================== */
+
+/* возвращает элемент, а если корней несколько — фрагмент со всеми
+   (раньше терялись все подсказки, шедшие вторым корнем после <label>) */
+function el(html) {
+  const t = document.createElement('template');
+  t.innerHTML = String(html).trim();
+  if (t.content.childNodes.length > 1) return t.content;
+  return t.content.firstElementChild || t.content.firstChild;
+}
+
+const ESC = { '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' };
+function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return ESC[c]; }); }
+
+function grow(ta) { ta.style.height = 'auto'; ta.style.height = (ta.scrollHeight + 2) + 'px'; }
+
+let toastT;
+function toast(txt) {
+  const t = document.getElementById('saved');
+  if (!t) return;
+  t.textContent = txt;
+  t.classList.add('on');
+  clearTimeout(toastT);
+  toastT = setTimeout(function () { t.classList.remove('on'); }, 1500);
+}
+
+function hint(txt) {
+  const g = document.getElementById('gatehint');
+  if (!g) return;
+  g.textContent = txt;
+  setTimeout(refreshChrome, 2200);
+}
+
+function loopback(n) {
+  const name = LEVERS[n - 1][0], url = TIMECODE[n];
+  if (!url) return '';
+  return '<a class="loop" href="' + esc(url) + '" target="_blank" rel="noopener">' +
+         '<span class="lm">Р' + n + '</span> ' + esc(name) + ' · вернуться в курсе</a>';
+}
+
+function noteBox(id, q, bodyHTML) {
+  return '<div class="note" id="note-' + id + '">' +
+    '<button class="note-h" type="button" data-note="' + id + '" aria-expanded="false">' +
+      '<span class="qm">?</span><span>' + esc(q) + '</span><span class="ch">▾</span>' +
+    '</button>' +
+    '<div class="note-b">' + bodyHTML + '</div></div>';
+}
+
+/* Примеры из чужой ниши: для насмотренности, не для копирования */
+function exampleBox(id, strong, weak) {
+  return '<div class="ex-wrap">' +
+    '<button class="ex-btn" type="button" data-ex="' + id + '">показать пример из другой ниши</button>' +
+    '<div class="ex-body" id="ex-' + id + '">' +
+      '<div class="ex-note">Это пример из чужой ниши, чтобы ты увидел форму, а не списал ответ. Твой будет про тебя.</div>' +
+      '<div class="ex-row ex-strong"><span class="ex-tag">СИЛЬНО</span><span>' + esc(strong) + '</span></div>' +
+      '<div class="ex-row ex-weak"><span class="ex-tag">СЛАБО</span><span>' + esc(weak) + '</span></div>' +
+    '</div></div>';
+}
+
+function field(q, hintHTML, key, blk, area, ph) {
+  const wrap = el('<div class="fld"><label class="q">' + esc(q) + '</label>' +
+    (hintHTML ? '<div class="hint">' + hintHTML + '</div>' : '') + '</div>');
+  const val = esc((S[blk] || {})[key] || '');
+  const inp = area
+    ? el('<textarea placeholder="' + esc(ph || '') + '">' + val + '</textarea>')
+    : el('<input type="text" placeholder="' + esc(ph || 'https://...') + '" value="' + val + '">');
+  inp.oninput = function () {
+    S[blk] = S[blk] || {};
+    S[blk][key] = inp.value;
+    if (area) grow(inp);
+    save(blk);
+  };
+  wrap.appendChild(inp);
+  return wrap;
+}
+
+/* ============================== БЛОКИ =============================== */
+
+let blockSync = null;   // блок может попросить обновлять себя вместе с рельсом
+
+/* --------------------------- 1. АУДИТ ------------------------------ */
+function b1(eye, t, w, body) {
+  eye.textContent = 'Аудит';
+  t.textContent = 'Прогони свои ролики по 9 рычагам';
+  w.innerHTML = 'Полторы минуты, девять ползунков. Оцени честно, где ты сейчас по каждому рычагу. ' +
+    'Картина почти у всех одна: <span class="lime">с ремеслом порядок, а угла нет</span>. Снимаешь нормально, ' +
+    'а зритель не понимает, чем ты отличаешься от десятка похожих экспертов, и уходит покупать к тому, кто понятнее. ' +
+    'Дальше в воркбуке чиним именно это.';
+
+  body.appendChild(el('<div class="savebar"><div class="ic">✓</div><div><b>Прогресс сохраняется сам.</b> ' +
+    'Можешь закрыть и вернуться в любой момент, все твои ответы останутся на месте.' +
+    (SYNC_URL ? '<span class="seen">Ответы видит Вероника: так она понимает, где у людей рвётся, и разбирает углы на созвонах.</span>' : '') +
+    '</div></div>'));
+
+  const counter = el('<div class="lev-count"></div>');
+  body.appendChild(counter);
+
+  LEVERS.forEach(function (L, idx) {
+    const n = idx + 1;
+    const moat = (n === 9);
+    const stored = (S.b1.lev || {});
+    const has = stored[n] != null;
+    const val = has ? stored[n] : 5;
+
+    const row = el('<div class="lever ' + (moat ? 'moat ' : '') + (has ? 'rated' : '') + '">' +
+      '<div class="lev-head">' +
+        '<div class="lev-name"><span class="lx">Р' + n + '</span>' + esc(L[0]) + '</div>' +
+        '<div class="lev-val">' + (has ? val + '/10' : 'не оценён') + '</div>' +
+      '</div>' +
+      '<div class="lev-desc">' + esc(L[1]) + (moat ? ', обычно тут и проседает, его собираем дальше' : '') + '</div>' +
+      '<input type="range" min="1" max="10" step="1" value="' + val + '" aria-label="' + esc(L[0]) + '">' +
+    '</div>');
+    body.appendChild(row);
+
+    const rng = row.querySelector('input');
+    const out = row.querySelector('.lev-val');
+    const paint = function () { rng.style.setProperty('--v', ((rng.value - 1) / 9 * 100) + '%'); };
+    paint();
+
+    const pick = function () {
+      S.b1.lev = S.b1.lev || {};
+      const was = S.b1.lev[n];
+      S.b1.lev[n] = +rng.value;
+      out.textContent = rng.value + '/10';
+      row.classList.add('rated');
+      paint();
+      if (was !== +rng.value) haptic('select');
+      updCount();
+      diag();
+      save('b1');
+    };
+    rng.addEventListener('input', pick);
+    rng.addEventListener('change', pick);
+    rng.addEventListener('click', pick);   // тап по шкале без протяжки тоже засчитывается
+  });
+
+  body.appendChild(el('<div class="diag" id="diag"></div>'));
+  body.appendChild(el('<div class="proof" id="proof"></div>'));
+  updCount();
+  diag();
+
+  function rated() { return Object.keys(S.b1.lev || {}).length; }
+
+  /* история Антона стоит ровно тут: человек только что прочитал, что угла у него нет,
+     и решает, стоит ли давать этой штуке пятнадцать минут */
+  function story() {
+    const pv = document.getElementById('proof');
+    if (!pv) return;
+    pv.classList.add('show');
+    pv.innerHTML =
+      '<div class="dt">Как это выглядит на живом человеке</div>' +
+      '<p>Антон Королев, гипнолог для предпринимателей. Он выложил триста роликов, штук по десять в день, ' +
+      'описание и картинку к ним брал у нейросети. Сам про них говорит так: ' +
+      '<b>«Они все одинаковые были, меня как эксперта, как какую-то личность там вообще никак не понятно было».</b></p>' +
+      '<p>Один из этих роликов набрал <span class="cnum">9,3 млн</span> просмотров. Подписчики шли по тысяче в день, ' +
+      'подписались Нюша, Джигурда, известные футболисты. Его реакция дословно: ' +
+      '<b>«Думаю, всё, блин, короче, я хакнул систему и сейчас попрёт».</b></p>' +
+      '<p>Попёрло ненадолго. Через пару месяцев выяснилось, что монетизировать эту аудиторию он не может. ' +
+      'Трипвайр, бесплатные гипно-аудиозаписи, ещё с десяток связок, эфиры, на которые никто не приходил. ' +
+      'Доход держался на тридцати-пятидесяти тысячах в месяц.</p>' +
+      '<p>Хочешь увидеть, что он тогда снимал? Вот два хука с его роликов на зелёном экране: ' +
+      '«Вы начнёте кратно расти, когда поймёте этот механизм» и «Вы перестанете тащить всё на себе, ' +
+      'когда поймёте, что вас об этом никто не просил». Под такое подпишется кто угодно, а заплатит примерно никто.</p>' +
+      '<p>Дальше ему скинули референс: гипнолог, который выкладывает трёхминутные сессии целиком. ' +
+      'Реакция была ровно такая: <b>«Я всячески отметал у себя в голове эту идею»</b>. Три минуты в рилсах, серьёзно?</p>' +
+      '<p>Кончилось тем, что он начал закидывать такие ролики в пробный аккаунт, чтобы никто не видел. ' +
+      'Третий или четвёртый залетел. Дома напротив окна, на айфон, без света и без монтажа. ' +
+      '<span class="cnum">600 000</span> просмотров, средний досмотр трёхминутного ролика перевалил за минуту. ' +
+      'Написали ему тысяч десять человек, за две недели пришло <span class="cnum">20 000</span> подписчиков, ' +
+      'июльская выручка вышла от пятисот до семисот тысяч.</p>' +
+      '<p>Снимать он лучше не стал, заметь. Тот же телефон, то же окно, монтажа как не было, так и нет. ' +
+      'Триста роликов и 9,3 миллиона просмотров это тоже ремесло, и оно у него было. ' +
+      'Поменялся девятый рычаг, тот самый, который ты сейчас пойдёшь собирать.</p>' +
+      '<div class="pfoot">Цифры и цитаты Антона из двух наших созвонов с ним, майского и июльского. ' +
+      'Его ролик и профиль лежат в шаге 6.</div>';
+  }
+
+  function updCount() {
+    const n = rated();
+    counter.innerHTML = n >= 9
+      ? 'оценено <b>' + n + '</b> из 9 · диагноз ниже'
+      : 'оценено <b>' + n + '</b> из 9 · диагноз появится, когда пройдёшь все девять';
+  }
+
+  function diag() {
+    const dv = document.getElementById('diag');
+    if (!dv) return;
+    const lev = S.b1.lev || {};
+    if (Object.keys(lev).length < 9) { dv.classList.remove('show'); return; }
+
+    let mn = 0, mv = 99;
+    for (let n = 1; n <= 8; n++) if (lev[n] != null && lev[n] < mv) { mv = lev[n]; mn = n; }
+    const angleLow = (lev[9] <= 6);
+
+    dv.classList.add('show');
+    let txt;
+    if (angleLow || !mn) {
+      txt = 'Ремесло у тебя есть, а <b>угла нет</b>. Ролики смотрят, покупают у другого. ' +
+            'Чинится это сборкой угла, шаги со второго по шестой, минут пятнадцать твоего времени.';
+    } else {
+      txt = 'По ремеслу слабее всего <b>Р' + mn + ': ' + esc(LEVERS[mn - 1][0]) + '</b> (' + mv + '/10), подтяни его. ' +
+            'И держи в голове вторую половину картины: ремесло вытягивает просмотры, деньги приходят с угла. ' +
+            'Его и собираем дальше.';
+    }
+    const lp = loopback((angleLow || !mn) ? 9 : mn);
+    dv.innerHTML = '<div class="dt">Диагноз</div>' + txt + (lp ? '<div>' + lp + '</div>' : '');
+    story();
+  }
+}
+
+/* ---------------------------- 2. ПУТЬ ------------------------------ */
+function b2(eye, t, w, body) {
+  eye.textContent = 'Путь';
+  t.textContent = '3–5 поворотных моментов твоего пути';
+  w.innerHTML = 'Угол растёт из твоей истории. Твой путь это <b>авторитет</b>, то есть причина, по которой тебе ' +
+    'вообще поверят на слово. Вспомни повороты: что случилось и какой урок из этого остался. ' +
+    'Без причёсывания, провалы работают тут лучше побед.';
+
+  const turns = (S.b2.turns && S.b2.turns.length) ? S.b2.turns.slice() : [];
+  while (turns.length < 3) turns.push('');
+  S.b2.turns = turns;
+
+  const box = el('<div></div>');
+  body.appendChild(box);
+  const foot = el('<div class="lev-count"></div>');
+  body.appendChild(foot);
+
+  draw();
+
+  function draw() {
+    box.innerHTML = '';
+    turns.forEach(function (v, idx) {
+      const it = el('<div class="rep-item"><textarea placeholder="Поворот ' + (idx + 1) +
+        ': что случилось → какой урок остался">' + esc(v) + '</textarea>' +
+        (turns.length > 3 ? '<button class="rep-del" type="button" aria-label="удалить">×</button>' : '') + '</div>');
+      const ta = it.querySelector('textarea');
+      ta.oninput = function () { turns[idx] = ta.value; S.b2.turns = turns; grow(ta); count(); save('b2'); };
+      const del = it.querySelector('.rep-del');
+      if (del) del.onclick = function () {
+        turns.splice(idx, 1); S.b2.turns = turns; save('b2'); draw(); haptic('light');
+      };
+      box.appendChild(it);
+      grow(ta);
+    });
+    if (turns.length < 5) {
+      const add = el('<button class="add" type="button">+ ещё поворот</button>');
+      add.onclick = function () {
+        turns.push(''); S.b2.turns = turns; save('b2'); draw();
+        const list = box.querySelectorAll('textarea');
+        if (list.length) list[list.length - 1].focus();
+      };
+      box.appendChild(add);
+    }
+    count();
+  }
+
+  function count() {
+    const n = turns.filter(filled).length;
+    foot.innerHTML = n >= 3
+      ? 'заполнено <b>' + n + '</b> из 3 минимум'
+      : 'заполнено <b>' + n + '</b> из 3 минимум · нужно ещё ' + (3 - n);
+  }
+}
+
+/* ------------------------ 3. ПРОТИВ ТЕЧЕНИЯ ------------------------ */
+function b3(eye, t, w, body) {
+  eye.textContent = 'Против течения';
+  t.textContent = 'Во что верят все и что ты считаешь иначе';
+  w.innerHTML = 'Это ядро твоего угла, его называют <b>угол-ракурс</b>. Если ты говоришь то же, что и все вокруг, ' +
+    'тебя не за что запомнить и не за что выбрать.';
+
+  body.appendChild(el(noteBox('angle3', 'Что такое угол-ракурс?',
+    '<b>Угол-ракурс</b> это твой стратегический взгляд на нишу. Обычно им становится неочевидное убеждение, ' +
+    'ниша внутри ниши или утверждение, которое ты можешь защитить в споре. Хуже всего быть тем, кто за всё хорошее сразу и против ничего.' +
+    '<div class="ex">Например: жёстко против ИИ в своей нише, против кето-диет в фитнесе, «не умирай» у Брайана Джонсона.</div>')));
+
+  body.appendChild(field('Что твердят все в твоей нише',
+    'Общее место, которое повторяют конкуренты', 'all', 'b3', true,
+    'Общая фраза, которую говорит вся ниша'));
+
+  body.appendChild(field('Против чего ты и что считаешь иначе',
+    'Твоя позиция, даже если она неудобная. То, что можешь защитить.', 'you', 'b3', true,
+    'Я против… потому что…'));
+
+  body.appendChild(el(exampleBox('b3',
+    'В фитнесе: «Я против сушки и кето, они убивают гормоны. Веду только на профиците». Есть враг, есть позиция, её можно защитить.',
+    '«Я за здоровый образ жизни и заботу о себе». За всё сразу и ни против чего, зацепиться не за что.')));
+}
+
+/* ---------------------- 4. ПОДПИСЧИК / КЛИЕНТ ---------------------- */
+function b4(eye, t, w, body) {
+  eye.textContent = 'Кого зовёшь';
+  t.textContent = 'Идеальный подписчик и идеальный клиент, раздели их';
+  w.innerHTML = 'Контентом ты притягиваешь <b>подписчика</b>. Деньги приносит <b>клиент</b>. ' +
+    'Это разные люди, и путать их дорого.';
+
+  body.appendChild(el(noteBox('who', 'Кто это такие?',
+    '<b>Идеальный подписчик</b> это тот, кого ты притягиваешь контентом. Обычно человек на шаг позади тебя, аудитория пошире.<br><br>' +
+    '<b>Идеальный клиент</b> это тот, кто реально платит. У него болит именно то, что ты решаешь, и есть деньги.<br><br>' +
+    'Работает это так: <b>ПКВ</b>, контентом первого касания, ты привлекаешь идеального подписчика. ' +
+    '<b>КДВ</b>, контентом доверия, фильтруешь его до идеального клиента. Это две разные задачи и два разных типа контента.')));
+
+  const split = el('<div class="split">' +
+    '<div class="col"><h4>Идеальный подписчик</h4>' +
+      '<textarea id="s1" placeholder="Кого притягиваешь контентом: кто он, что смотрит, чего хочет">' + esc(S.b4.sub || '') + '</textarea></div>' +
+    '<div class="col"><h4>Идеальный клиент</h4>' +
+      '<textarea id="s2" placeholder="Кого фильтруешь до денег: кто платит, за что, почему именно тебе">' + esc(S.b4.cli || '') + '</textarea></div>' +
+  '</div>');
+  body.appendChild(split);
+
+  const s1 = split.querySelector('#s1'), s2 = split.querySelector('#s2');
+  s1.oninput = function () { S.b4.sub = s1.value; grow(s1); save('b4'); };
+  s2.oninput = function () { S.b4.cli = s2.value; grow(s2); save('b4'); };
+}
+
+/* ---------------------------- 5. БОЛИ ------------------------------ */
+function b5(eye, t, w, body) {
+  eye.textContent = 'Боли';
+  t.textContent = 'Их боль точнее, чем они сами её формулируют';
+  w.innerHTML = 'Бери <b>реальные слова</b> из лички, комментариев и переписок. Из головы придумывать бессмысленно. ' +
+    'Ролик цепляет тогда, когда человек читает свою боль ровно теми словами, которыми думает про неё сам.';
+
+  body.appendChild(field('Боли идеального клиента, дословно их формулировками',
+    'Копируй фразы из <b>лички и комментариев</b> ровно как есть. Кривые обороты и мат оставляй, именно они потом попадают в хук. ' +
+    'Сделаешь поверхностно, получишь ноль продаж, тут всё держится на точности слов.',
+    'pain', 'b5', true, '«…» по одной фразе на строку'));
+
+  /* у половины людей директ пустой, и это самое частое место, где воркбук бросают */
+  const TPL = 'Привет! Собираю материал для контента, и мне нужны живые формулировки, а не мои догадки. ' +
+    'Ответь тремя предложениями, как думаешь, без причёсывания.\n' +
+    '1. Что ты пробовал(а) в [твоя тема] за последний год и почему бросил(а)?\n' +
+    '2. Что в этом бесит больше всего прямо сейчас?\n' +
+    '3. Если бы это решилось само за ночь, что изменилось бы у тебя завтра?';
+
+  const nodm = el('<div class="ex-wrap">' +
+    '<button class="ex-btn" type="button">у меня почти нет переписок, что делать</button>' +
+    '<div class="ex-body">' +
+      '<div class="ex-note">Нормальная ситуация, и она вообще ничего про тебя не говорит. ' +
+      'Пока заявок мало, директ пустой почти у всех. Формулировки тогда добываются разговором.</div>' +
+      '<div class="ex-row ex-strong"><span class="ex-tag">15 МИН</span><span>' +
+        'Выпиши пять человек, похожих на твоего клиента: бывшие клиенты, знакомые из ниши, подписчики, ' +
+        'которые хоть раз тебе писали. Отправь каждому текст ниже и попроси ответить голосовым, ' +
+        'голосом люди говорят честнее и подробнее.</span></div>' +
+      '<div class="ex-row ex-weak"><span class="ex-tag">ТЕКСТ</span><span id="dmtpl"></span></div>' +
+      '<div class="rowbtn"><button class="mini" type="button" id="dmcopy">Скопировать сообщение</button></div>' +
+    '</div></div>');
+  body.appendChild(nodm);
+  nodm.querySelector('#dmtpl').textContent = TPL;
+  const nbtn = nodm.querySelector('.ex-btn'), nbody = nodm.querySelector('.ex-body');
+  nbtn.onclick = function () {
+    const open = nbody.classList.toggle('open');
+    nbtn.textContent = open ? 'свернуть' : 'у меня почти нет переписок, что делать';
+  };
+  nodm.querySelector('#dmcopy').onclick = function () { copyText(TPL, 'сообщение скопировано'); };
+
+  body.appendChild(el(noteBox('kd', 'Где брать настоящие формулировки',
+    'Первое сообщение в личке почти всегда обобщённое, человек ещё не доверяет и говорит общими словами. ' +
+    'Настоящая боль вылезает позже: на созвоне, в глубокой переписке или когда он уже уверен в твоей экспертности.<br><br>' +
+    'Поэтому источники такие: <b>кастдевы и созвоны</b>, длинные переписки, комментарии, тематические форумы и чаты, ' +
+    'где твоя аудитория говорит между собой без тебя.<br><br>' +
+    'Мне самой больше всего даёт живое общение внутри моей фокус-группы. Там видно, где у аудитории белые пятна, ' +
+    'которые она сама не может назвать.')));
+
+  body.appendChild(el(exampleBox('b5',
+    'Недвижимость: «Смотрю квартиры полгода, каждый раз кажется, что переплачиваю». Фитнес: «Хожу в зал год, вес стоит, уже стыдно фотографироваться». Так люди говорят на созвонах и в глубокой переписке.',
+    'Недвижимость: «Клиенты хотят выгодно купить квартиру». Фитнес: «Люди хотят похудеть и быть здоровыми». Именно так человек и напишет в первом сообщении, потому что пока не доверяет. Настоящая боль лежит глубже.')));
+}
+
+/* ------------------------ 6. СБОРКА УГЛА --------------------------- */
+function b6(eye, t, w, body) {
+  eye.textContent = 'Сборка';
+  t.textContent = 'Собери угол одним предложением';
+  w.innerHTML = 'Карта ниже собирается сама из шагов 2–5. Осталось свести это в <b>угол одним предложением</b>.';
+
+  body.appendChild(el(noteBox('how', 'Как собрать угол? (3 дифференциатора)',
+    'Позиционирование держится на трёх опорах, и угол собирается на их пересечении:<br><br>' +
+    '<b>1. Угол-ракурс.</b> Против чего ты и во что веришь иначе, чем остальные (шаг 3).<br>' +
+    '<b>2. Авторитет.</b> Почему тебе вообще верить: твой путь и доказательства (шаг 2).<br>' +
+    '<b>3. Зона гениальности.</b> Как именно ты решаешь проблему клиента и в чём ты настоящий.<br><br>' +
+    '<b>Проверка на прочность:</b> мысленно убери любую опору. Угол должен заметно просесть. ' +
+    'Если ничего не изменилось, значит угла там пока нет.')));
+
+  const wrap = el('<div class="map" id="map"></div>');
+  body.appendChild(wrap);
+
+  body.appendChild(field('Твоя зона гениальности: как именно ты решаешь проблему',
+    'Опиши способ: порядок действий, принцип или инструмент, за который тебя выбирают. ' +
+    'Если у метода пока нет имени, придумай рабочее прямо сейчас, из двух-трёх слов. ' +
+    'Имя превращает «я консультирую» в «у меня свой подход», и это третья опора угла.',
+    'genius', 'b6', true, 'Я решаю это через… Рабочее название метода: …'));
+
+  body.appendChild(el('<label class="q">Твой угол одним предложением</label>' +
+    '<div class="hint">Через чью призму всё подано и почему именно ты. То, что вырастает из карты выше и что нельзя скопировать.</div>'));
+
+  const ta = el('<textarea placeholder="Я против [чего] и помогаю [кому] прийти к [результату] через [твой метод], ' +
+    'потому что за спиной [путь из шага 2].">' + esc(S.b6.angle || '') + '</textarea>');
+  body.appendChild(ta);
+  ta.oninput = function () { S.b6.angle = ta.value; grow(ta); drawMap(); save('b6'); };
+
+  const copy = el('<div class="rowbtn" style="margin-top:10px"><button class="mini" type="button">Скопировать угол</button></div>');
+  copy.querySelector('button').onclick = function () {
+    const v = (S.b6.angle || '').trim();
+    if (!v) { toast('сначала напиши угол'); return; }
+    copyText(v, 'угол скопирован');
+  };
+  body.appendChild(copy);
+
+  body.appendChild(el(exampleBox('b6',
+    '«Помогаю женщинам 30-45 лет, которые ведут блог по своей профессии, получать заявки без танцев под тренды, через контент, который отсеивает халявщиков». Понятно, кто клиент, против чего ты и каким способом решаешь.',
+    '«Помогаю экспертам расти и зарабатывать в блоге». Ни сегмента, ни клиента, ни угла, подходит вообще кому угодно.')));
+
+  function face(key) { return FACES[key]; }
+  function igLink(key) {
+    var n = IG[key];
+    if (!n) return '';
+    return '<a class="cig" href="https://www.instagram.com/' + esc(n) + '/" target="_blank" rel="noopener">@' + esc(n) + '</a>';
+  }
+
+  body.appendChild(el('<div class="uselinks">' +
+    '<h5>Что происходит, когда угол найден</h5>' +
+    '<div class="sub">Три человека из моей фокус-группы. Ниши у них разные, а сработало одно и то же.</div>' +
+
+    /* ---------- АНТОН ---------- */
+    '<div class="case">' +
+      '<div class="chead">' +
+        '<div class="cface"><img src="' + face('anton') + '" alt="Антон"></div>' +
+        '<div class="cwho"><div class="cname">Антон</div>' +
+        '<div class="cniche">Гипнолог для предпринимателей</div>' + igLink('anton') + '</div>' +
+      '</div>' +
+      '<div class="cstory">' +
+        '<p>До поворота Антон выложил триста роликов, по десять штук в день, все на одно лицо. ' +
+        'Про них он говорит так:</p>' +
+        '<div class="said">«Они все одинаковые были, меня как эксперта, как какую-то личность ' +
+        'там вообще никак не понятно было».</div>' +
+        '<p>Один такой набрал <span class="cnum">9,3 млн</span> просмотров, на него подписывались звёзды, ' +
+        'и денег это не принесло совсем. Потом он поменял формат на трёхминутную сессию целиком, ' +
+        'снял её дома напротив окна на айфон, без света и без монтажа.</p>' +
+        '<div class="cbar"><span class="was">было 30-50 тысяч в месяц</span><span class="arr">&rarr;</span>' +
+        '<span class="now">500-700 тысяч &#8381;</span><span class="cap">выручка после смены формата</span></div>' +
+        '<p>Тот ролик собрал <span class="cnum">600 000</span> просмотров, в пятнадцать раз меньше, ' +
+        'чем его звёздный хит. Денег он принёс несопоставимо больше, потому что смотреть стали те, ' +
+        'кому нужна сессия. Написало ему тысяч десять человек, подписчиков прибавилось ' +
+        '<span class="cnum">20 000</span> за две недели, запись забита на три-четыре недели вперёд.</p>' +
+        '<p>И вот на что посмотри отдельно. Из этих десяти тысяч сообщений он выписал огромный список болей ' +
+        'своей аудитории и с него потом снимал следующие ролики. Ровно то, что ты делаешь на пятом шаге ' +
+        'этого воркбука.</p>' +
+        '<div class="ba">' +
+          '<div class="ba-t">Его профиль до и сейчас</div>' +
+          '<div class="ba-grid">' +
+            '<div class="ba-item"><img src="anton-do.jpg" alt="Профиль Антона до работы с нами" loading="lazy">' +
+              '<div class="ba-lab"><b>До</b>283 публикации · 24,1 тыс. подписчиков</div></div>' +
+            '<div class="ba-item now"><img src="anton-posle.jpg" alt="Профиль Антона сейчас" loading="lazy">' +
+              '<div class="ba-lab"><b>Сейчас</b>312 публикаций · 65,6 тыс. подписчиков</div></div>' +
+          '</div>' +
+          '<div class="ba-note">Посчитай: <b>двадцать девять новых роликов принесли ему больше подписчиков, ' +
+          'чем предыдущие триста</b>. Ещё посмотри на шапку профиля, там виден сам угол. Было «Психолог» ' +
+          'и кодовое слово за набор аудиопрактик от тревожности. Стало «Гипнолог Лидеров», перепрошиваю ' +
+          'мозг предпринимателей для x10 роста, пятнадцать лет в бизнесе. Тот же человек с той же профессией.</div>' +
+        '</div>' +
+      '</div>' +
+      '<div class="clinks">' +
+        (USE_EXAMPLES[0] ? '<a href="' + esc(USE_EXAMPLES[0]) + '" target="_blank" rel="noopener"><span class="pl">&#9654;</span> Тот самый ролик</a>' : '') +
+        (ANTON_INTERVIEW ? '<a href="' + esc(ANTON_INTERVIEW) + '" target="_blank" rel="noopener"><span class="pl">&#9654;</span> Интервью с Антоном</a>' : '') +
+      '</div>' +
+    '</div>' +
+
+    /* ---------- КИРИЛЛ ---------- */
+    '<div class="case">' +
+      '<div class="chead">' +
+        '<div class="cface"><img src="' + face('kirill') + '" alt="Кирилл"></div>' +
+        '<div class="cwho"><div class="cname">Кирилл</div>' +
+        '<div class="cniche">ВНЖ и переезд в Болгарию</div>' + igLink('kirill') + '</div>' +
+      '</div>' +
+      '<div class="cstory">' +
+        '<p>К слову, ниша у Кирилла узкая и спрос в ней скачет по сезону. Продавал он на консультациях, ' +
+        'и в мае 2026 с блога у него был ноль.</p>' +
+        '<p>В июле 2026 он пересобрал консультации по одной схеме, вместо того чтобы дальше пользоваться ' +
+        'нерабочим инструментом. Контент начал делать под конкретного человека, который к нему придёт, ' +
+        'того самого идеального клиента, которого мы разбирали на четвёртом шаге.</p>' +
+        '<div class="said">«Раньше выхлоп был ноль... В итоге я всё пересобрал, переделал, ' +
+        'консультировать начал совсем по-другому, и всё пошло по-другому».</div>' +
+        '<div class="cbar"><span class="was">было 0 клиентов с блога</span><span class="arr">&rarr;</span>' +
+        '<span class="now">4 клиента по 4 000 &euro;</span><span class="cap">за первые десять дней после перезапуска</span></div>' +
+        '<p>Один ролик про недвижимость принёс ему <span class="cnum">25 заявок</span>. ' +
+        'Подписчиков за три месяца стало <span class="cnum">7 000</span> вместо 4 900. ' +
+        'Часть новых клиентов приходит со словами «нам вас посоветовали», потому что его контент ' +
+        'пересылают друг другу.</p>' +
+      '</div>' +
+      '<div class="clinks">' +
+        (USE_EXAMPLES[1] ? '<a href="' + esc(USE_EXAMPLES[1]) + '" target="_blank" rel="noopener"><span class="pl">&#9654;</span> Его ролик</a>' : '') +
+      '</div>' +
+    '</div>' +
+
+    /* ---------- ТАРАС ---------- */
+    '<div class="case">' +
+      '<div class="chead">' +
+        '<div class="cface"><img src="' + face('taras') + '" alt="Тарас"></div>' +
+        '<div class="cwho"><div class="cname">Тарас</div>' +
+        '<div class="cniche">Фитнес-тренер, онлайн-ведение</div>' + igLink('taras') + '</div>' +
+      '</div>' +
+      '<div class="cstory">' +
+        '<p>Тарас выкладывал по тридцать единиц контента в месяц и вёл двадцать клиентов по 12 тысяч рублей. ' +
+        'Мемы под трендовую музыку у него залетали лучше всего. И он их убрал, потому что после просмотров ' +
+        'никто не покупал, а кто писал, тот торговался.</p>' +
+        '<p>Вместо мемов у него пошли разговорные ролики, где он говорит от себя. Они стали набирать больше, ' +
+        'чем прежние нарезки под музыку. Заодно он поднял чек до 15 тысяч, и ни один человек не ушёл с его ведения.</p>' +
+        '<div class="cbar"><span class="was">было 20 клиентов и 240 тысяч</span><span class="arr">&rarr;</span>' +
+        '<span class="now">18 клиентов и 270 тысяч &#8381;</span><span class="cap">рабочая неделя сжалась до трёх-четырёх дней</span></div>' +
+        '<p>Тут интересна не сумма, а то, что за ней. Раньше летом он проседал в доходе до ' +
+        '<span class="cnum">70 тысяч</span>, теперь его худший месяц вышел <span class="cnum">160 тысяч</span>. ' +
+        'Приходить к нему стали взрослые люди, которые понимают, за что платят. Подписчиков при этом ' +
+        'прибавилось совсем немного, и он на них больше не смотрит.</p>' +
+      '</div>' +
+      '<div class="clinks">' +
+        (TARAS_REEL ? '<a href="' + esc(TARAS_REEL) + '" target="_blank" rel="noopener"><span class="pl">&#9654;</span> Его разговорный ролик</a>' : '') +
+      '</div>' +
+    '</div>' +
+
+    '<div class="case-note">Заметь, что каждый из них сначала <b>перестал</b> снимать то, что приносило просмотры. ' +
+    'Антон бросил ролики на зелёном экране, хотя один из них взял 9,3 миллиона. Тарас убрал мемы под трендовую музыку, ' +
+    'которые залетали у него лучше всего. Кирилл перестал делать контент для всех подряд. Место освободилось под ролики, ' +
+    'которые говорят с одним конкретным человеком, и деньги пришли именно оттуда.</div>' +
+  '</div>'));
+
+  drawMap();
+  blockSync = drawMap;
+
+  function drawMap() {
+    const map = document.getElementById('map');
+    if (!map) return;
+    const d = mapData();
+    const rows = d.map(function (x) {
+      const f = filled(x.v);
+      return '<div class="slot">' +
+        '<div class="k">' + esc(x.k) + '</div>' +
+        '<div class="v' + (f ? '' : ' empty') + '">' +
+          (f ? esc(x.v) : (x.here
+              ? 'пусто, поле сразу под картой'
+              : '<button class="goto" type="button" data-go="' + x.src + '">пусто, заполни шаг ' + (x.src + 1) + ' →</button>')) +
+        '</div></div>';
+    }).join('');
+    const ang = (S.b6.angle || '').trim();
+    map.innerHTML = '<div class="map-top"><span class="mt">Из чего собирается угол</span>' +
+      '<span class="map-fill">заполнено <b>' + mapPct() + '%</b></span></div>' + rows +
+      '<div class="angle-final"><div class="k">Твой угол одним предложением</div>' +
+      '<div class="v' + (ang ? '' : ' empty') + '">' + (ang ? esc(ang) : 'появится здесь, когда напишешь предложение ниже') + '</div></div>';
+
+    map.querySelectorAll('[data-go]').forEach(function (b) {
+      b.onclick = function () { go(+b.dataset.go); };
+    });
+  }
+}
+
+/* ---------------------------- 7. ФИНИШ ----------------------------- */
+function b7(eye, t, w, body) {
+  eye.textContent = 'Финиш';
+  t.textContent = 'Собери ролик на своём угле и сними его';
+  w.innerHTML = 'Черновик угла готов. Планка тут честная: <b>первый ролик на 6 из 10</b>, вылизывать до восьмёрки ' +
+    'не нужно и даже вредно, восьмёрка приходит на десятом ролике. Шпаргалка по хуку и скелету свёрнута ниже, ' +
+    'это уже было в курсе, разворачивай, если надо освежить.';
+
+  /* шпаргалка по хуку и скелету: человек это уже слышал в курсе, поэтому свёрнуто */
+  body.appendChild(el(noteBox('sheet', 'Шпаргалка: хук и скелет ролика',
+    '<b>Формула хука, три шага.</b><br>' +
+    '1. Вход в тему, сразу ясно, о чём ролик («За год в зале я перепробовала всё, что советуют тренеры»).<br>' +
+    '2. Стоп-скролл, фраза, которая ломает поток мыслей, обычно через «но» или «однако» («Но вот в чём штука…»).<br>' +
+    '3. Контрудар, то, что идёт вразрез с ожиданием («…питание оказалось тут самой скучной частью»).<br><br>' +
+    '<b>Шаблоны хука, подставь своё.</b><br>' +
+    '· Обо мне: «Я получил(а) [результат] с помощью [метод]»<br>' +
+    '· Прямое обращение: «Если ты пытаешься [цель], вот [простой способ]»<br>' +
+    '· Контрарное: «[Популярная вещь] это худшее, что случалось с [ниша]»<br>' +
+    '· Проблема: «Если бьёшься с [боль], этот метод поможет»<br>' +
+    '· A против B: «В чём разница между новичком и профи в [сфера]?»<br>' +
+    '· Сторонний кейс: «Этот эксперт сделал [результат] с одного телефона»<br><br>' +
+    '<b>Скелет ролика.</b><br>' +
+    '1. Хук, первые секунды, по формуле выше.<br>' +
+    '2. Зона гениальности, твой метод из шага 6.<br>' +
+    '3. Как ты его применяешь, пошагово и на живом примере.<br>' +
+    '4. Призыв, кодовое слово в районе двух третей ролика.<br><br>' +
+    'Скелет тут опора, под неё можно подложить любой формат из курса. Угол при этом остаётся тем же, ' +
+    'меняется только упаковка: где-то он раскроется историей, где-то разбором, где-то списком. ' +
+    'Ролик Антона выше это длинный разговорный формат, кому-то ближе короткий и плотный. ' +
+    'Бери тот, который сможешь снимать регулярно.')));
+
+
+  /* сценарии */
+  const scr = (S.b7.scripts && S.b7.scripts.length) ? S.b7.scripts.slice() : [];
+  while (scr.length < 3) scr.push('');
+  S.b7.scripts = scr;
+
+  body.appendChild(el('<label class="q">3 сценария на твоём угле</label>' +
+    '<div class="hint">Каждый по скелету выше: хук → зона гениальности → как применил → кодовое слово.</div>'));
+
+  const sb = el('<div></div>');
+  body.appendChild(sb);
+  scr.forEach(function (v, idx) {
+    const it = el('<div class="rep-item"><textarea placeholder="Сценарий ' + (idx + 1) + '">' + esc(v) + '</textarea></div>');
+    const ta = it.querySelector('textarea');
+    ta.oninput = function () { scr[idx] = ta.value; S.b7.scripts = scr; grow(ta); save('b7'); };
+    sb.appendChild(it);
+  });
+
+  /* чек перед публикацией */
+  body.appendChild(el('<label class="q">Чек перед публикацией</label>' +
+    '<div class="hint">Прогони черновик по списку. Не прошёл пункт, чини рычаг, а не выкладывай как есть.</div>'));
+
+  const gates = [
+    ['Звук чистый, тебя чётко слышно', 3],
+    ['Лицо в кадре, ты в фокусе, фон убран', 2],
+    ['Заголовок понятен без звука', 1],
+    ['Обещание хука закрыто к концу', 1],
+    ['В конце есть призыв, понятно куда вести', 8]
+  ];
+  const g = S.b7.gate || {};
+  const gate = el('<div class="gate"></div>');
+  body.appendChild(gate);
+  gates.forEach(function (row, idx) {
+    const ck = el('<label class="ck"><input type="checkbox" ' + (g[idx] ? 'checked' : '') + '>' +
+      '<span class="txt">' + esc(row[0]) + ' <span class="lk">· не ок → рычаг ' + row[1] + '</span></span></label>');
+    ck.querySelector('input').onchange = function (e) {
+      S.b7.gate = S.b7.gate || {};
+      S.b7.gate[idx] = e.target.checked;
+      haptic('select');
+      verdict();
+      save('b7');
+    };
+    gate.appendChild(ck);
+  });
+  body.appendChild(el('<div id="gv"></div>'));
+  verdict();
+
+  body.appendChild(field('Ссылка на опубликованный ролик',
+    'Ролик снят и выложен, вставляй ссылку. Это твой осязаемый результат за весь воркбук.',
+    'video', 'b7', false, 'https://...'));
+
+  body.appendChild(field('Куда тебе написать',
+    'Я смотрю ролики, которые приходят через воркбук. Не все и не в тот же день, но смотрю и отвечаю. ' +
+    'Оставь телеграм или инстаграм, чтобы я знала, кому писать.',
+    'contact', 'b7', false, '@твой_ник'));
+
+  /* финал */
+  const fin = el('<div class="finale" id="finale">' +
+    '<div class="ft">Воркбук пройден</div>' +
+    '<p>Угол собран, ролик снят и выложен. Дальше он живёт повторением: следующие пять роликов держи на этом же ' +
+    'угле и меняй только упаковку. Позицию не трогай минимум месяц, иначе счётчик доверия у аудитории ' +
+    'обнуляется и всё начинается заново.</p>' +
+    '<div class="rowbtn">' +
+      (SYNC_URL ? '<button class="mini go" type="button" data-act="send">Отправить итог Веронике</button>' : '') +
+      '<button class="mini" type="button" data-act="copy">Скопировать итог</button>' +
+    '</div></div>');
+  fin.querySelector('[data-act="copy"]').onclick = function () { copyText(summary(), 'итог скопирован'); };
+  const sendBtn = fin.querySelector('[data-act="send"]');
+  if (sendBtn) sendBtn.onclick = function () {
+    syncNow(true);
+    haptic('ok');
+    toast('итог отправлен');
+  };
+  body.appendChild(fin);
+
+  const tools = el('<div class="rowbtn" style="margin-top:18px">' +
+    '<button class="mini" type="button" data-act="copy2">Скопировать все ответы</button>' +
+    '<button class="mini danger" type="button" data-act="reset">Начать заново</button></div>');
+  tools.querySelector('[data-act="copy2"]').onclick = function () { copyText(summary(), 'ответы скопированы'); };
+  tools.querySelector('[data-act="reset"]').onclick = resetAll;
+  body.appendChild(tools);
+
+  /* кремовый блок: Архитектура Касаний. Крестика нет, это единственный выход из воркбука */
+  {
+    const nx = el('<div class="next" id="nextcard">' +
+      '<div class="kick">И что же тебе теперь делать?</div>' +
+      '<h3>Ролик приводит людей, деньги приносит то, что стоит вокруг него</h3>' +
+      '<p>Угол у тебя теперь есть, ролик снят. Дальше начинается вторая половина работы: ' +
+      'путь, по которому зритель доходит от первого просмотра до оплаты. Я называю его ' +
+      '<span class="pf">Архитектурой Касаний</span>, и в воркбуке его нет, тут мы занимались только углом.</p>' +
+      '<p>Весь метод разобран на видео: из чего состоит путь клиента, какой контент стоит на каждом ' +
+      'касании и как склеить это под свою нишу. Открывай и внедряй себе, платить не нужно.</p>' +
+      '<a class="cta" href="' + esc(LANDING) + '" target="_blank" rel="noopener">' +
+        '<span class="play"><svg viewBox="0 0 12 14" aria-hidden="true"><path d="M0 0l12 7-12 7z"/></svg></span>' +
+        '<span class="lbl"><b>Смотреть разбор метода</b>' +
+          '<small>видео на странице, заполнять ничего не нужно</small></span>' +
+      '</a>' +
+      '<p class="soft" style="margin-top:14px">Под видео там лежит анкета, если после разбора захочешь ' +
+      'собирать систему вместе со мной. Сначала посмотри, потом решай.</p>' +
+    '</div>');
+    body.appendChild(nx);
+  }
+
+  syncFinale();
+  blockSync = syncFinale;
+
+  function verdict() {
+    const gg = S.b7.gate || {};
+    const ok = gates.every(function (_, idx) { return gg[idx]; });
+    const gv = document.getElementById('gv');
+    if (!gv) return;
+    gv.innerHTML = '<div class="verdict ' + (ok ? 'yes' : 'no') + '">' +
+      (ok ? '✓ Чек пройден, публикуй черновик на 6 из 10' : 'Ещё не все пункты закрыты, допили и прогони снова') + '</div>';
+  }
+
+  function syncFinale() {
+    const f = document.getElementById('finale');
+    if (f) f.classList.toggle('on', done(6));
+  }
+}
+
+/* =========================== ИТОГ И СБРОС =========================== */
+
+function summary() {
+  const out = ['МОЙ УГОЛ · воркбук «Собери свой угол»', ''];
+  const push = function (title, val) { if (filled(val)) out.push(title, String(val).trim(), ''); };
+
+  push('Угол одним предложением:', (S.b6 || {}).angle);
+
+  const turns = ((S.b2 || {}).turns || []).filter(filled);
+  if (turns.length) {
+    out.push('Путь и авторитет:');
+    turns.forEach(function (t, i) { out.push((i + 1) + '. ' + t.trim()); });
+    out.push('');
+  }
+  push('Что твердят все в нише:', (S.b3 || {}).all);
+  push('Угол-ракурс, против чего я:', (S.b3 || {}).you);
+  push('Зона гениальности, как я решаю:', (S.b6 || {}).genius);
+  push('Идеальный подписчик:', (S.b4 || {}).sub);
+  push('Идеальный клиент:', (S.b4 || {}).cli);
+  push('Боли их словами:', (S.b5 || {}).pain);
+
+  const scr = ((S.b7 || {}).scripts || []).filter(filled);
+  if (scr.length) {
+    out.push('Сценарии:');
+    scr.forEach(function (s, i) { out.push((i + 1) + '. ' + s.trim()); });
+    out.push('');
+  }
+  push('Опубликованный ролик:', (S.b7 || {}).video);
+  push('Связь:', (S.b7 || {}).contact);
+  return out.join('\n').trim();
+}
+
+function copyText(txt, okMsg) {
+  const ok = function () { toast(okMsg || 'скопировано'); haptic('ok'); };
+  const fallback = function () {
+    const ta = document.createElement('textarea');
+    ta.value = txt;
+    ta.setAttribute('readonly', '');
+    ta.style.cssText = 'position:fixed;top:0;left:0;opacity:0';
+    document.body.appendChild(ta);
+    ta.select();
+    ta.setSelectionRange(0, txt.length);
+    let good = false;
+    try { good = document.execCommand('copy'); } catch (e) {}
+    document.body.removeChild(ta);
+    if (good) ok(); else toast('скопировать не вышло, выдели текст вручную');
+  };
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(txt).then(ok, fallback);
+  } else fallback();
+}
+
+function resetAll() {
+  const ask = 'Стереть все ответы и начать воркбук заново? Отменить это уже нельзя.';
+  const run = async function () {
+    if (cloudOK) {
+      const all = [NS + 'cur'];
+      KEYS.forEach(function (k) {
+        all.push(NS + k + '_n');
+        for (let i = 0; i < (chunks[k] || 0) + 4; i++) all.push(NS + k + '_' + i);
+      });
+      await cloudDel(all);
+    }
+    KEYS.forEach(function (k) { lsDel(NS + k); });
+    lsDel(NS + 'cur');
+    S = { b1:{}, b2:{}, b3:{}, b4:{}, b5:{}, b6:{}, b7:{} };
+    chunks = {};
+    cur = 0;
+    syncSig = '';
+    renderBlock(0);
+    scrollTop();
+    toast('всё стёрто, начинаем заново');
+  };
+  if (tg && tg.showConfirm) tg.showConfirm(ask, function (yes) { if (yes) run(); });
+  else if (window.confirm(ask)) run();
+}
+
+/* =========================== ДИАГНОСТИКА ============================
+   Видна только если открыть адрес с ?debug=1 на конце.
+   Обычные люди её не увидят никогда.
+   ===================================================================== */
+
+const DEBUG = /[?&]debug=1/.test(location.search) || location.hash === '#debug';
+
+function drawDebug() {
+  if (!DEBUG) return;
+  let d = document.getElementById('dbg');
+  if (!d) {
+    d = document.createElement('div');
+    d.className = 'dbg';
+    d.id = 'dbg';
+    document.body.appendChild(d);
+  }
+  const u = tgUser();
+  const set = SYNC_URL ? '<span class="ok">заполнен</span>' : '<span class="bad">ПУСТОЙ, отправка выключена</span>';
+  const st = syncStatus.state;
+  const cls = (st === 'доставлено' || st === 'отправлено') ? 'ok' : (st === 'не дошло' || st === 'выключена') ? 'bad' : '';
+
+  d.innerHTML =
+    '<h6>ДИАГНОСТИКА ОТПРАВКИ</h6>' +
+    '<div class="r"><b>SYNC_URL</b><span class="v">' + set + '</span></div>' +
+    '<div class="r"><b>адрес</b><span class="v">' + (SYNC_URL ? esc(SYNC_URL.slice(0, 58)) + '…' : 'не задан') + '</span></div>' +
+    '<div class="r"><b>кто я</b><span class="v">' + (u ? 'Telegram, id ' + u.id : 'браузер, без Telegram') + '</span></div>' +
+    '<div class="r"><b>последняя</b><span class="v ' + cls + '">' + esc(st) +
+      (syncStatus.at ? ' в ' + syncStatus.at : '') + '</span></div>' +
+    (syncStatus.detail ? '<div class="r"><b>подробности</b><span class="v">' + esc(syncStatus.detail) + '</span></div>' : '') +
+    '<div class="btns">' +
+      '<button type="button" id="dbgping">Проверить связь</button>' +
+      '<button type="button" class="ghost" id="dbghide">Скрыть</button>' +
+    '</div>';
+
+  d.querySelector('#dbgping').onclick = function () {
+    if (!SYNC_URL) { markSync('выключена', 'сначала вставь адрес в SYNC_URL, строка 497'); return; }
+    syncSig = '';
+    syncNow(false);
+  };
+  d.querySelector('#dbghide').onclick = function () { d.remove(); };
+}
+
+/* ============================== РЕНДЕР ============================== */
+
+function renderBlock(i) {
+  const stage = document.getElementById('stage');
+  stage.innerHTML = '';
+  blockSync = null;
+
+  const c = el('<section class="block">' +
+    '<div class="beye"><span class="n">0' + (i + 1) + ' / 07</span><span id="beye"></span></div>' +
+    '<h2 class="btitle" id="bt"></h2><div class="bwhy" id="bw"></div><div id="body"></div></section>');
+  stage.appendChild(c);
+
+  const eye = c.querySelector('#beye'),
+        t   = c.querySelector('#bt'),
+        w   = c.querySelector('#bw'),
+        body = c.querySelector('#body');
+
+  [b1, b2, b3, b4, b5, b6, b7][i](eye, t, w, body);
+
+  /* одна мысль без кнопки: просто предупреждаем, что будет в конце */
+  if (i >= 2 && i <= 5) {
+    body.appendChild(el('<div class="ahead">Дойдёшь до седьмого шага, там можно будет прислать мне свой ролик.</div>'));
+  }
+
+  body.querySelectorAll('[data-note]').forEach(function (h) {
+    h.onclick = function () {
+      const n = document.getElementById('note-' + h.dataset.note);
+      const open = n.classList.toggle('open');
+      h.setAttribute('aria-expanded', open ? 'true' : 'false');
+    };
+  });
+  body.querySelectorAll('[data-ex]').forEach(function (b) {
+    b.onclick = function () {
+      const box = document.getElementById('ex-' + b.dataset.ex);
+      const open = box.classList.toggle('open');
+      b.textContent = open ? 'скрыть пример' : 'показать пример из другой ниши';
+    };
+  });
+
+  /* textarea растут под текст, чтобы на телефоне не скроллить внутри поля */
+  stage.querySelectorAll('textarea').forEach(function (ta) {
+    grow(ta);
+    ta.addEventListener('input', function () { grow(ta); });
+  });
+
+  document.body.classList.toggle('deep', i > 0);
+  refreshChrome();
+}
+
+const LOCK = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17 9V7a5 5 0 0 0-10 0v2H5v12h14V9h-2zm-8-2a3 3 0 0 1 6 0v2H9V7z"/></svg>';
+
+function refreshChrome() {
+  const rail = document.getElementById('rail');
+  if (!rail) return;
+
+  rail.innerHTML = '';
+  for (let i = 0; i < 7; i++) {
+    const lk = !unlocked(i);
+    const n = el('<button type="button" class="notch' + (i === cur ? ' active' : '') +
+      (done(i) ? ' done' : '') + (lk ? ' lock' : '') + '" aria-label="Шаг ' + (i + 1) + ' · ' + NAMES[i] + '">' +
+      (lk ? LOCK : (i + 1)) + '</button>');
+    n.onclick = function () { go(i); };
+    rail.appendChild(n);
+  }
+
+  const pct = mapPct();
+  const rn = document.getElementById('railName');
+  if (rn) rn.textContent = 'Шаг ' + (cur + 1) + ' · ' + NAMES[cur];
+  const mp = document.getElementById('mapPct');
+  if (mp) mp.textContent = pct + '%';
+  const gh = document.getElementById('ghpct');
+  if (gh) gh.textContent = pct + '%';
+  const ring = document.getElementById('ring');
+  if (ring) { ring.style.setProperty('--p', pct); ring.classList.toggle('full', pct === 100); }
+
+  const pb = document.getElementById('prev');
+  if (pb) pb.disabled = (cur === 0);
+
+  const nb = document.getElementById('next');
+  const ok = done(cur);
+  if (nb) {
+    nb.textContent = (cur === 6) ? 'Готово' : 'Дальше →';
+    nb.disabled = false;
+  }
+  const gt = document.getElementById('gatehint');
+  if (gt) gt.textContent = ok ? '' : missing(cur);
+
+  if (blockSync) blockSync();
+}
+
+function go(i) {
+  if (i < 0 || i > 6) return;
+  if (!unlocked(i)) { hint('Сначала заполни предыдущие шаги'); haptic('rigid'); return; }
+  flushAll();                       // ничего не теряем при переходе между шагами
+  cur = i;
+  lsSet(NS + 'cur', String(cur));
+  save('b' + (cur + 1));
+  renderBlock(i);
+  haptic('select');
+  scrollTop();
+}
+
+function scrollTop() {
+  try { window.scrollTo({ top: 0, behavior: 'smooth' }); }
+  catch (e) { window.scrollTo(0, 0); }
+}
+
+function finishUp() {
+  const f = document.getElementById('finale');
+  syncNow(true);
+  haptic('ok');
+  toast('воркбук пройден');
+  try { if (f && f.scrollIntoView) f.scrollIntoView({ behavior: 'smooth', block: 'center' }); } catch (e) {}
+}
+
+/* кто я: открывается тапом по фото или по подписи под именем */
+(function () {
+  const me = document.getElementById('me');
+  const face = document.querySelector('.mark');
+  const cap = document.querySelector('.who span');
+  if (!me || !face) return;
+  face.setAttribute('role', 'button');
+  face.setAttribute('tabindex', '0');
+  const toggle = function () {
+    const open = me.classList.toggle('on');
+    if (cap) cap.textContent = open ? 'свернуть' : 'нажми на фото, кто я';
+    haptic('select');
+    if (open) { try { me.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); } catch (e) {} }
+  };
+  face.onclick = toggle;
+  face.onkeydown = function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); } };
+  if (cap) cap.onclick = toggle;
+})();
+
+document.getElementById('prev').onclick = function () { go(cur - 1); };
+document.getElementById('next').onclick = function () { (cur === 6) ? finishUp() : go(cur + 1); };
+
+/* ============================== СТАРТ =============================== */
+
+(async function () {
+  try { await loadAll(); } catch (e) {}
+  renderBlock(cur);
+  drawDebug();          // панель диагностики, если открыто с ?debug=1
+  syncRetry();          // если прошлая отправка не ушла, добиваем её сейчас
+  syncNow(false);       // отметка «зашёл», чтобы видеть тех, кто открыл и бросил
+  const boot = document.getElementById('boot');
+  if (boot) {
+    boot.classList.add('gone');
+    setTimeout(function () { boot.remove(); }, 400);
+  }
+})();
+</script>
+</body>
+</html>
