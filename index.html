@@ -541,9 +541,9 @@ input[type=range]::-moz-range-thumb{
     <h4>Кто я</h4>
     <p>Вероника Филатова. Вместе с партнёром строю <b>ScaleFil</b>: я отвечаю за контент и позиционирование, партнёр за воронки и продажи. За полтора года наши клиенты заработали больше <span class="mnum">41 миллиона рублей</span>, и мы привели им больше <span class="mnum">1,5 миллиона подписчиков</span>.</p>
     <p>Про угол я долблю так упёрто, потому что трижды своими глазами смотрела, как большие охваты не превращаются в деньги.</p>
-    <p>Начну с себя. Мой личный рекорд по просмотрам до сих пор вот такой: два с половиной миллиона на ролике длиной шесть секунд под трендовое аудио. Подписалась сотня человек, клиентов ноль. Красивый был ролик))...</p>
+    <p>Начну с себя. Мой личный рекорд по просмотрам до сих пор вот такой: два с половиной миллиона на ролике длиной шесть секунд под трендовое аудио. Подписалась сотня человек, клиентов ноль. Красивый был ролик))</p>
     <p>Потом я пошла продюсером к эксперту, который набрал триста тысяч подписчиков за полгода. Мы три месяца грели аудиторию, сделали два запуска и заработали сорок тысяч рублей на двоих. Люди приходили, смотрели и уходили, потому что не понимали, зачем с ним оставаться.</p>
-    <p>После этого была контент-директором. Больше десяти миллионов просмотров и двадцать тысяч подписчиков за три месяца в инсте на органике. КЛючевая проблема заключалась в том, что оффер мы так и не собрали, и вся эта аудитория ушла в трубу.</p>
+    <p>После этого была контент-директором. Больше десяти миллионов просмотров и двадцать тысяч подписчиков за три месяца в инсте на органике. Ключевая проблема заключалась в том, что оффер мы так и не собрали, и вся эта аудитория ушла в трубу.</p>
     <p>Три раза подряд одна и та же дыра, и ни разу дело не упиралось в качество роликов.</p>
   </section>
 
@@ -601,7 +601,7 @@ const TIMECODE = {
 };
 
 /* Видео разбор «Архитектура Касаний» */
-const LANDING = 'https://scalefil.com/main-book-nf?utm_source=work-book';
+const LANDING = 'https://scalefil.com/main-book-nf';
 
 
 
@@ -630,6 +630,26 @@ const IG = {
    Пустая строка = отправка выключена, воркбук работает как раньше.
    --------------------------------------------------------------------- */
 const SYNC_URL = 'https://script.google.com/macros/s/AKfycbzTzf8tsySlxpuFIk650AkSseLecruMZ3FhfGGaS_BUVOd-lcI8hVgecBbskm-R_13CaA/exec';
+
+/* ---------------------------------------------------------------------
+   СОБЫТИЯ В БОТА (Salebot и любой другой)
+   Воркбук сам говорит боту, что человек его открыл и что закончил.
+   Без этого бот не знает про воркбук ничего и дожимы слать не может.
+
+   ВЕРОНИКА: три значения ниже возьми у Любови.
+   Пока BOT_HOOK пустой, отправка выключена, всё остальное работает.
+   --------------------------------------------------------------------- */
+/* Адрес вебхука сейлбота БЕЗ хвоста с параметрами.
+   Берётся так: Настройки → Интеграции → Добавить апи ключ → скопировать ключ.
+   Получится: https://chatter.salebot.pro/api/ТВОЙ_КЛЮЧ/callback
+   Параметры client_id и message воркбук допишет сам. */
+const BOT_HOOK = '';
+
+/* Названия команд. Должны совпадать с условиями в сейлботе. */
+const BOT_EVENTS = {
+  opened:   'wb_opened',
+  finished: 'wb_finished'
+};
 
 /* Префикс ключей хранилища. Меняешь префикс — у всех начинается с нуля. */
 const NS = 'wb9_';
@@ -866,6 +886,7 @@ function payload() {
   return {
     v: 1,
     id: u ? ('tg_' + u.id) : anonId(),
+    client: clientId(),
     source: u ? 'telegram' : 'web',
     initData: (tg && tg.initData) ? tg.initData : '',
     username: u ? (u.username || '') : '',
@@ -891,6 +912,65 @@ function payload() {
 }
 
 let syncStatus = { state: 'нет попыток', at: '', detail: '' };
+
+/* ---------------------- отправка событий в бота ----------------------
+   Событие уходит один раз на человека и запоминается, чтобы бот
+   не получал «открыл» при каждом заходе.
+   Запрос идёт в режиме no-cors: ответ прочитать нельзя, зато нет
+   предварительного запроса OPTIONS, на котором обычно всё и ломается.
+   --------------------------------------------------------------------- */
+let botStatus = { state: 'нет попыток', at: '', detail: '' };
+
+/* Номер клиента в сейлботе. Это НЕ telegram id, сейлбот на telegram id ругается.
+   Номер приезжает из ссылки, которую бот выдаёт человеку:
+   https://t.me/scalefil_bot/workbook?startapp=891622447
+   Телеграм кладёт его в start_param. Запоминаем у человека на устройстве,
+   чтобы событие «закончил» ушло даже если он вернулся в воркбук позже
+   по обычной ссылке без параметра. */
+function clientId() {
+  let v = '';
+  try { v = (tg && tg.initDataUnsafe && tg.initDataUnsafe.start_param) || ''; } catch (e) {}
+  if (!v) {
+    try { v = new URLSearchParams(location.search).get('client_id') || ''; } catch (e) {}
+  }
+  v = String(v).replace(/[^0-9]/g, '');
+  if (v) { lsSet(NS + 'cid', v); return v; }
+  return lsGet(NS + 'cid') || '';
+}
+
+function botSent(name) { return lsGet(NS + 'ev_' + name) === '1'; }
+
+function botEvent(name, force) {
+  if (!BOT_HOOK) {
+    botStatus = { state: 'выключено', at: '', detail: 'BOT_HOOK пустой' };
+    drawDebug(); return;
+  }
+  const cid = clientId();
+  if (!cid) {
+    botStatus = { state: 'нет номера клиента', at: '', detail: 'воркбук открыт не по ссылке из бота' };
+    drawDebug(); return;
+  }
+  if (!force && botSent(name)) return;
+
+  const ev = BOT_EVENTS[name] || name;
+  const url = BOT_HOOK + (BOT_HOOK.indexOf('?') > -1 ? '&' : '?') +
+              'client_id=' + encodeURIComponent(cid) +
+              '&message=' + encodeURIComponent(ev);
+
+  botStatus = { state: 'отправляю', at: new Date().toLocaleTimeString('ru-RU'), detail: ev };
+  drawDebug();
+
+  try {
+    /* no-cors: ответ прочитать нельзя, зато браузер не шлёт предварительный
+       OPTIONS, на котором такие связки обычно и ломаются */
+    fetch(url, { method: 'POST', mode: 'no-cors', keepalive: true });
+    lsSet(NS + 'ev_' + name, '1');
+    botStatus = { state: 'ушло', at: new Date().toLocaleTimeString('ru-RU'), detail: ev + ' · клиент ' + cid };
+  } catch (e) {
+    botStatus = { state: 'ошибка', at: new Date().toLocaleTimeString('ru-RU'), detail: String(e) };
+  }
+  drawDebug();
+}
 
 function markSync(state, detail) {
   syncStatus = {
@@ -1871,8 +1951,15 @@ function drawDebug() {
     '<div class="r"><b>последняя</b><span class="v ' + cls + '">' + esc(st) +
       (syncStatus.at ? ' в ' + syncStatus.at : '') + '</span></div>' +
     (syncStatus.detail ? '<div class="r"><b>подробности</b><span class="v">' + esc(syncStatus.detail) + '</span></div>' : '') +
+    '<div class="r"><b>номер клиента</b><span class="v ' + (clientId() ? 'ok' : 'bad') + '">' +
+      (clientId() || 'не передан, ссылка без startapp') + '</span></div>' +
+    '<div class="r"><b>бот</b><span class="v ' +
+      ((botStatus.state === 'ушло') ? 'ok' : (botStatus.state === 'ошибка' || botStatus.state === 'выключено') ? 'bad' : '') +
+      '">' + esc(botStatus.state) + (botStatus.at ? ' в ' + botStatus.at : '') +
+      (botStatus.detail ? ' · ' + esc(botStatus.detail) : '') + '</span></div>' +
     '<div class="btns">' +
       '<button type="button" id="dbgping">Проверить связь</button>' +
+      '<button type="button" class="ghost" id="dbgbot">Тест события в бота</button>' +
       '<button type="button" class="ghost" id="dbghide">Скрыть</button>' +
     '</div>';
 
@@ -1881,6 +1968,7 @@ function drawDebug() {
     syncSig = '';
     syncNow(false);
   };
+  d.querySelector('#dbgbot').onclick = function () { botEvent('opened', true); };
   d.querySelector('#dbghide').onclick = function () { d.remove(); };
 }
 
@@ -1994,6 +2082,7 @@ function scrollTop() {
 function finishUp() {
   const f = document.getElementById('finale');
   syncNow(true);
+  botEvent('finished');
   haptic('ok');
   toast('воркбук пройден');
   try { if (f && f.scrollIntoView) f.scrollIntoView({ behavior: 'smooth', block: 'center' }); } catch (e) {}
@@ -2025,6 +2114,7 @@ document.getElementById('next').onclick = function () { (cur === 6) ? finishUp()
 
 (async function () {
   try { await loadAll(); } catch (e) {}
+  botEvent('opened');
   renderBlock(cur);
   drawDebug();          // панель диагностики, если открыто с ?debug=1
   syncRetry();          // если прошлая отправка не ушла, добиваем её сейчас
