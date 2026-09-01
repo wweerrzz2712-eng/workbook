@@ -643,7 +643,8 @@ const SYNC_URL = 'https://script.google.com/macros/s/AKfycbwq6H5Chz1PPOGnrx_Ne37
    Берётся так: Настройки → Интеграции → Добавить апи ключ → скопировать ключ.
    Получится: https://chatter.salebot.pro/api/ТВОЙ_КЛЮЧ/callback
    Параметры client_id и message воркбук допишет сам. */
-const BOT_HOOK = 'efb5a7dab318e2b536105e23083dbefe';
+const BUILD = 'v13 · 1 сентября';   /* метка версии, видна в панели ?debug=1 */
+const BOT_HOOK = 'https://chatter.salebot.pro/api/efb5a7dab318e2b536105e23083dbefe/callback';
 
 /* Названия команд. Должны совпадать с условиями в сейлботе. */
 const BOT_EVENTS = {
@@ -1951,6 +1952,9 @@ function drawDebug() {
     '<div class="r"><b>последняя</b><span class="v ' + cls + '">' + esc(st) +
       (syncStatus.at ? ' в ' + syncStatus.at : '') + '</span></div>' +
     (syncStatus.detail ? '<div class="r"><b>подробности</b><span class="v">' + esc(syncStatus.detail) + '</span></div>' : '') +
+    '<div class="r"><b>версия файла</b><span class="v">' + esc(BUILD) + '</span></div>' +
+    '<div class="r"><b>вебхук бота</b><span class="v ' + (BOT_HOOK ? 'ok' : 'bad') + '">' +
+      (BOT_HOOK ? esc(BOT_HOOK) : 'ПУСТО, ключ не вставлен') + '</span></div>' +
     '<div class="r"><b>номер клиента</b><span class="v ' + (clientId() ? 'ok' : 'bad') + '">' +
       (clientId() || 'не передан, ссылка без startapp') + '</span></div>' +
     '<div class="r"><b>бот</b><span class="v ' +
