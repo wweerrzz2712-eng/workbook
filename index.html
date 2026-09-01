@@ -649,7 +649,8 @@ const BOT_HOOK = 'https://chatter.salebot.pro/api/efb5a7dab318e2b536105e23083dbe
 /* Названия команд. Должны совпадать с условиями в сейлботе. */
 const BOT_EVENTS = {
   opened:   'wb_opened',
-  finished: 'wb_finished'
+  finished: 'wb_finished',
+  voronka:  'wb_voronka'
 };
 
 /* Префикс ключей хранилища. Меняешь префикс — у всех начинается с нуля. */
@@ -2118,7 +2119,16 @@ document.getElementById('next').onclick = function () { (cur === 6) ? finishUp()
 
 (async function () {
   try { await loadAll(); } catch (e) {}
-  botEvent('opened');
+   document.addEventListener('click', function (e) {
+  var a = e.target.closest ? e.target.closest('a.cta') : null;
+  if (!a) return;
+  e.preventDefault();
+  e.stopPropagation();
+  botEvent('voronka', true);
+  var href = a.getAttribute('href');
+  setTimeout(function () { openLink(href); }, 500);
+}, true);
+   botEvent('opened');
   renderBlock(cur);
   drawDebug();          // панель диагностики, если открыто с ?debug=1
   syncRetry();          // если прошлая отправка не ушла, добиваем её сейчас
